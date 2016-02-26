@@ -13,7 +13,7 @@
 		</personname>
 	<affiliation>
 	  <address>
-	    <email>Chen.Xu@umass.edu</email>
+	    <email>Chen.Xu@umassmed.edu</email>
 	  </address>
 	</affiliation></author>
     </authorgroup>
@@ -102,16 +102,16 @@
 
   <sect1><title>Apply High Tension</title>
       <para> Turn High Tension (H.T.) on if it is off by pressing the
-          <application>H.T.</application> button on the panel. From
-          <application>Parameter</application> page, set it to 120kV or
+          <guibutton>[&nbsp;H.T.&nbsp;]</guibutton> button on the panel. From
+          <guibutton>[&nbsp;Parameter&nbsp;]</guibutton> page, set it to 120kV or
           the voltage you want. </para>
   </sect1>
 
   <sect1> <title>Turn filament on</title>
         <para> It is recommended to turn the filament on while on the
-            <application>configuration</application> page where the
+            <guibutton>[&nbsp;configuration&nbsp;]</guibutton> page where the
             actual filament current number is shown and the
-            <application>limit</application> can be
+            <guibutton>[&nbsp;limit&nbsp;]</guibutton> can be
             checked(highlighted).  </para>
   </sect1>
 
@@ -120,8 +120,8 @@
 
      <itemizedlist> 
       <listitem> <para> Desaturate the filament about 2-3 clicks.  </para> </listitem>
-      <listitem> <para> Press <application>Align</application> button, highlight <application>Gun Tilt</application>.  </para> </listitem>
-      <listitem> <para> Adjust the <application>multi-function X, Y</application>
+      <listitem> <para> Press <guibutton>[&nbsp;Align&nbsp;]</guibutton> button, highlight <guibutton>[&nbsp;Gun Tilt&nbsp;]</guibutton>.  </para> </listitem>
+      <listitem> <para> Adjust the <guibutton>[&nbsp;multi-function X, Y&nbsp;]</guibutton>
           				to get the best shape for the tip and maximum intensity as well. </para> </listitem>
       <listitem> <para> Bring the filament current to saturation.  </para> </listitem>
      </itemizedlist>
@@ -135,8 +135,8 @@
 
       <listitem>
             <para> At around 5kX, cross the beam first and center beam
-                using deflectors (<application>Beam Shift
-                    X,Y</application>), then spread the beam until its
+                using deflectors (<guibutton>[&nbsp;Beam Shift
+                    X,Y&nbsp;]</guibutton>), then spread the beam until its
                 diameter is close to 5cm ring on the screen. Adjust
                 screws X &amp; Y on C2 aperture to center the beam.
                 Repeat this process 2-3 times.  </para>
@@ -144,7 +144,7 @@
 
       <listitem> 
             <para> At high mag ~30kX or higher, change the
-                <application>intensity</application> of beam(C2) through
+                <guibutton>[&nbsp;intensity&nbsp;]</guibutton> of beam(C2) through
                 the crossover and adjust the screws X,Y to make the beam
                 symmetric when spreading out.  </para>
       </listitem>
@@ -156,15 +156,15 @@
         <itemizedlist> 
           <listitem> 
             <para> When the filament is desaturated, press
-              <application>Stig</application> button and select
-              <application>Cond</application>, then adjust
-              <application>Multi-function knobs</application> so that the details in the filament
+              <guibutton>[&nbsp;Stig&nbsp;]</guibutton> button and select
+              <guibutton>[&nbsp;Cond&nbsp;]</guibutton>, then adjust
+              <guibutton>[&nbsp;Multi-function knobs&nbsp;]</guibutton> so that the details in the filament
               shadowing image can be clearest and sharpest.  </para>
           </listitem>
 
           <listitem> 
             <para> When changing the beam intensity, use the
-              <application>Multi-function knobs</application> to adjust the beam into symmetric and
+              <guibutton>[&nbsp;Multi-function knobs&nbsp;]</guibutton> to adjust the beam into symmetric and
               "round" shape, i.e. not elliptical.  </para>
           </listitem>
       </itemizedlist>
@@ -248,7 +248,7 @@
 
 		<itemizedlist> 
 		<listitem> <para> Have beam seen on large screen, at ~3000X, and find a feature on the grid.</para></listitem>
-		<listitem> <para> rotate stage back and forth by pressing <application>CompuStage</application> - <application>A-wobbler</application>.</para></listitem>
+		<listitem> <para> rotate stage back and forth by pressing <guibutton>[&nbsp;CompuStage&nbsp;]</guibutton> - <guibutton>[&nbsp;A-wobbler&nbsp;]</guibutton>.</para></listitem>
 		<listitem> <para> Adjust <userinput>joystick Z</userinput> to minimize the shifting of the feature.</para></listitem>
 		</itemizedlist>
 
@@ -264,11 +264,11 @@
 	<itemizedlist>
 		<listitem> <para> Make sure the specimen is at eucentric height.</para></listitem>
 		<listitem> <para> Take out Obj. aperture.  </para> </listitem>
-		<listitem> <para> Press button <application>Align</application> - <application>Direct Alignment</application> - <application>Beam Tilt Pivot X</application>.</para> </listitem>
-		<listitem> <para> Merge image feature by adjusting <application>Focus</application> knob. This is to <emphasis>precisely</emphasis> focus the image.</para></listitem>
-		<listitem> <para> Merge beam using <application>Multi-fcuntion knobs</application>.</para></listitem>
-        <listitem> <para> Repeat the last two steps for <application>Beam Tilt Pivot Y</application>.</para></listitem>
-        <listitem> <para> Press <application>Align</application> button again to exit.</para></listitem>
+		<listitem> <para> Press button <guibutton>[&nbsp;Align&nbsp;]</guibutton> - <guibutton>[&nbsp;Direct Alignment&nbsp;]</guibutton> - <guibutton>[&nbsp;Beam Tilt Pivot X&nbsp;]</guibutton>.</para> </listitem>
+		<listitem> <para> Merge image feature by adjusting <guibutton>[&nbsp;Focus&nbsp;]</guibutton> knob. This is to <emphasis>precisely</emphasis> focus the image.</para></listitem>
+		<listitem> <para> Merge beam using <guibutton>[&nbsp;Multi-fcuntion knobs&nbsp;]</guibutton>.</para></listitem>
+        <listitem> <para> Repeat the last two steps for <guibutton>[&nbsp;Beam Tilt Pivot Y&nbsp;]</guibutton>.</para></listitem>
+        <listitem> <para> Press <guibutton>[&nbsp;Align&nbsp;]</guibutton> button again to exit.</para></listitem>
 	</itemizedlist>
   </sect1>
   
@@ -281,14 +281,14 @@
 		<para>The procedure is below.</para>
 
 	<itemizedlist> 
-	  <listitem> <para> Press <application>Align</application> button and select <application>Rotation Center</application>.  </para> </listitem>
-	  <listitem> <para> Select <application>Voltage</application> or <application>Current</application> from the same page.  </para> </listitem>
-	  <listitem> <para> Adjust the <application>Multi-function Knobs</application> to let the wobbling be symmetrical around the center of the beam. The feature at very center of the large screen has minimum shift.</para> </listitem>
+	  <listitem> <para> Press <guibutton>[&nbsp;Align&nbsp;]</guibutton> button and select <guibutton>[&nbsp;Rotation Center&nbsp;]</guibutton>.  </para> </listitem>
+	  <listitem> <para> Select <guibutton>[&nbsp;Voltage&nbsp;]</guibutton> or <guibutton>[&nbsp;Current&nbsp;]</guibutton> from the same page.  </para> </listitem>
+	  <listitem> <para> Adjust the <guibutton>[&nbsp;Multi-function Knobs&nbsp;]</guibutton> to let the wobbling be symmetrical around the center of the beam. The feature at very center of the large screen has minimum shift.</para> </listitem>
   	  <listitem> <para> If you perform this with Obj aperture in, then re-check the certering of objective aperture.</para> </listitem>
 	</itemizedlist>
 
 	<note> 
-	  <para> The step size button on <application>Focus</application> is
+	  <para> The step size button on <guibutton>[&nbsp;Focus&nbsp;]</guibutton> is
 		used to control the amplitude of the beam wobbling.  </para>
 
 	  <para> The steps used here only give "roughly" parallel beam to the axis.
@@ -314,11 +314,11 @@
 		<listitem> <para> Make sure the large screen is down, to prevent CCD from damage.  </para> </listitem>
 	   	<listitem> <para> Switch to diffraction mode by pressing the diffraction "D" button.  </para> </listitem>
 		<listitem> <para> Adjust camera length to ~1m using magnification knob. </para></listitem>
-	   	<listitem> <para> Adjust the <application>Intensity</application> (C2) and <application>Defocus</application> 
+	   	<listitem> <para> Adjust the <guibutton>[&nbsp;Intensity&nbsp;]</guibutton> (C2) and <guibutton>[&nbsp;Defocus&nbsp;]</guibutton> 
 					knobs to see the shape edge of the obj. aperture.  </para> </listitem>
 	    <listitem> <para> Adjust the related mechanical screws on aperture holder to choose the proper size of the aperture and 
 					center it to the central beam on diffraction pattern.  </para> </listitem>
-		<listitem> <para> Switch back to image mode by pressing <application>D</application> button again.  </para> </listitem>
+		<listitem> <para> Switch back to image mode by pressing <guibutton>[&nbsp;D&nbsp;]</guibutton> button again.  </para> </listitem>
 	</itemizedlist>
 	
   </sect1>
@@ -338,9 +338,9 @@
 	<itemizedlist> 
 	  <listitem> <para> Go to a relatively high mag., such as 100,000X, and focus the image.  </para> </listitem>
 	  <listitem> <para> If possible, acquire continous CCD image with live FFT so Thon rings can be seen.</para></listitem>
-	  <listitem> <para> Press the <application>Stig</application> button, highlight
-        <application>Obj</application>, and select proper stepsize.  </para> </listitem>
-	  <listitem> <para> Adjust the stigmatism using <application>Multi-function knobs</application> until it
+	  <listitem> <para> Press the <guibutton>[&nbsp;Stig&nbsp;]</guibutton> button, highlight
+        <guibutton>[&nbsp;Obj&nbsp;]</guibutton>, and select proper stepsize.  </para> </listitem>
+	  <listitem> <para> Adjust the stigmatism using <guibutton>[&nbsp;Multi-function knobs&nbsp;]</guibutton> until it
         becomes minimum at all defocus levels. (It shows up more at close to focus.) </para> </listitem>
 	</itemizedlist>
   </sect1>
@@ -353,7 +353,7 @@
 
 			<para> Alternatively, at 2650-3400x, switch to Diff. mode by pressing
 				"Diff" button.  Adjust camera length to 680mm using "Mag" knob.  Focus the
-				diffraction spot using <application>Focus</application> knob, and then adjust
+				diffraction spot using <guibutton>[&nbsp;Focus&nbsp;]</guibutton> knob, and then adjust
 				"defocus" until the image inside central spot expands to proper size.
 				Personally, I like to "defocus" to clockwise side. What you got is a shadowing
 				image inside of defocused diffraction central beam. The advantage of this is
@@ -371,7 +371,7 @@
 
   </sect1>
 
-  <sect1> <title>Align an identified area under <application>Exposure</application> and <application>Search</application></title>
+  <sect1> <title>Align an identified area under <guibutton>[&nbsp;Exposure&nbsp;]</guibutton> and <guibutton>[&nbsp;Search&nbsp;]</guibutton></title>
 	    <para>
 		  This step is to insure that what you see under low mag. (Search
 		  mode) will be the same area you get under imaging mag. Here is how
@@ -381,7 +381,7 @@
 	  <listitem> <para> At Exposure mode, MECHANICALLY drive an identified spot to the centber of the screen.  </para> </listitem>
 	  <listitem> 
 		<para> At Search mode(and usually in Diffraction mode also), using the
-			<application>Multi-function knobs</application> to backtrack the identified
+			<guibutton>[&nbsp;Multi-function knobs&nbsp;]</guibutton> to backtrack the identified
 			spot at the center of the screen (electronically). This uses Image Shift or
 			Diffaction Shift (when Search mode is set up in Diff mode) to "shift" image
 			without actually moving the stage position.  </para> </listitem>
