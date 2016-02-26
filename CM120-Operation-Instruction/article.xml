@@ -44,8 +44,6 @@
 
   <sect1> <title>Check log book to see if there have been any problems</title>
 
-      <para> This is the </para> 
-
     <para> It is always a good idea to check the LOG book. You can find
         useful information listed there, such as: </para>
 
@@ -205,12 +203,12 @@
   </sect1>
 
   <sect1> <title>Insert specimen holder into column</title>
-	<important>
+	<warning>
     <para> Be careful! Only at this stage, you might damage the scope or
       specimen holder <emphasis>mechanically</emphasis>. Be sure that
       you understand what you are doing. Should you feel any confusion
       about this procedure, please stop and ask for help.  </para>
-	</important>
+	</warning>
 
 	<note>
 		<para> For the sake of filament crystal, it is REQUIRED to turn down the

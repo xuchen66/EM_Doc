@@ -36,7 +36,7 @@
         more useful, please feel free to let me know. Thank you! </para>  
 
     <para>NOTE: all the turning knobs on the panel and push buttons are
-        marked <emphasis>like this</emphasis>.</para>
+        marked <guibutton>[&nbsp;like this&nbsp;]</guibutton>.</para>
 
     </abstract>
   </info>
