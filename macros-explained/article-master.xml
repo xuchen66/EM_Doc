@@ -1,0 +1,665 @@
+<!DOCTYPE article PUBLIC "-//FreeBSD//DTD DocBook XML V4.2-Based Extension//EN"
+    "../../../share/xml/freebsd42.dtd" [
+<!ENTITY % entities PUBLIC "-//FreeBSD//ENTITIES DocBook FreeBSD Entity Set//EN" "../../share/xml/entities.ent">
+%entities;
+<!ENTITY email "xuchen@brandeis.edu">
+<!ENTITY tecnai "<emphasis>Tecnai</emphasis>">
+<!ENTITY tem.f20 "<emphasis>Tecnai F20</emphasis>">
+<!ENTITY tem.f30 "<emphasis>Tecnai F30</emphasis>">
+<!ENTITY tem.cm12 "<emphasis>CM12</emphasis>">
+<!ENTITY tem.morgagni "<emphasis>Morgagni 268</emphasis>">
+<!ENTITY cam.k2   "<emphasis>Gatan K2 Summit Camera</emphasis>">
+<!ENTITY cam.falcon  "<emphasis>FEI Falcon Camera</emphasis>">
+<!ENTITY cam.us4000  "<emphasis>Gatan US4000 CCD</emphasis>">
+<!ENTITY cam.us1000  "<emphasis>Gatan US1000 CCD</emphasis>">
+<!ENTITY cam.amt     "<emphasis>AMT 1k x 1k CCD</emphasis>">
+<!ENTITY cam.gif     "<emphasis>Gatan GIF CCD</emphasis>">
+<!ENTITY cam.orius   "<emphasis>Gatan Orius CCD</emphasis>">
+<!ENTITY sft.tec     "<application>Tecnai</application>">
+<!ENTITY sft.sem     "<application>SerialEM</application>">
+<!ENTITY sft.dm      "<application>DigitalMicrogaph</application>">
+<!ENTITY sft.tia     "<application>TIA</application>"> 
+]>
+
+
+<article>
+  <articleinfo>
+    <title>&sft.sem; HowTo: Macro Explained </title>
+
+    <author>
+      <firstname>Chen</firstname>
+      <surname>Xu</surname>
+
+      <affiliation>
+    <address><email>&email;</email></address>
+      </affiliation>
+    </author>
+
+   <pubdate>
+  $BrandeisEM:
+     ~emdoc-xml/en_US.ISO8859-1/articles/SerialEM-howto:macro-explain/article.xml 1
+2015-09-18 05:39:04
+  xuchen Exp$ 
+   </pubdate>
+
+   <abstract>
+
+    <para> The look of macro of &sft.sem; is very much like a shell script.
+    It contains macro command line or lines. And running a macro is to execute
+    macro command line by line. The macro commands themselves are high level
+    wrap-up of functions which controls microscope and cameras. To me, the macro
+    commands and macro are among the most attractive features in &sft.sem;. With
+    these, we can controls the scope and camera in very flexible way. </para>
+
+    <para> I have tried to learn how to write macro to do my job, mainly
+    for single particle applications. And I continuously learn new things,
+    functions and power of this tool. I like to share what I have learn here. I
+    want to show some examples of the macro I wrote over the past years. I won't be
+    surprising at all if you come up with better macros with clever ideas than I
+    show here. It is my hope that this document can help people new to &sft.sem; to
+    understand how it works and start to write your own macros.  </para>
+
+    <para> I list some of the macros here. And I want to explain what the
+    macro is to do and how. I welcome any comments and feedback about these macros.
+    This document will be frequently updated, with new or improved macros. </para> 
+                
+    <para> You can also get pdf version of this document <ulink
+    url="article.pdf">here</ulink>.  </para>
+
+  <para>All the macros listed in this document be downloaded and loaded
+    to &sft.sem; with a single text tile <ulink
+      url="macro-list.txt"><filename>macro-list.txt</filename></ulink>.</para>
+
+    </abstract>
+
+  </articleinfo>
+
+    <sect1><title>AlignToP</title>
+    <example>
+        <title>
+        <ulink url="AlignToP.txt">
+        <application>AlignToP</application>
+        </ulink>
+        </title>
+
+<programlisting>
+INSERT:AlignToP.txt
+</programlisting>
+</example>
+
+    <para> It might look complicated to you. However, the key part of
+        this macro is actually very simple, as shown below. </para> 
+        
+    <programlisting>
+## align
+Loop 2
+   $shot
+   AlignTo P
+   ResetImageShift 
+EndLoop 
+</programlisting>
+
+    <para> It is just to take a shot and align it to the image in buffer P
+    and iterate twice. The image shift value resulted from aligning is then reset
+    and compensated by stage shift. This brings stage to a position the image of
+    which is similar to what in the buffer P. Due to stage movement error, we do it
+    twice to make it more accurate. After this, beam is still straight down, no
+    zigzag, which is good for high resolution imaging. </para> 
+
+    <para> The rest of the code in the example is to mimic the conditions of image
+    in buffer P: binning, size, exposure time, the camera set (V, F, T, R or L) and
+    even whether in Low Dose mode or not. I even take into account the case that
+    the image in P is cropped one and some camera can not take flexible area as Gatan
+    ones. In this case, the image taken in buffer A is also cropped before being
+    aligned to buffer P.  </para> 
+
+<para> The goal of this macro is to use a template. Let assume we have picked a
+    point item in a valid map. And this point is close to the center of a hole in
+    Quantifoil or C-flat grid mesh.  &sft.sem;'s robust function
+    <application>Realign</application> can bring stage to that point. This
+    procedure leaves a small mount ImageShift in the end. If we have a single
+    centered hole image put in buffer P, running macro in above example will
+    "refine" the stage position to the center of current hole accurately and gets
+    rid of the ImageShift on scope. </para> 
+
+    <para> This macro can also be called from another macro, like the following
+    one in next section.</para> 
+
+    </sect1>
+    <sect1><title>AlignToP-quick</title>
+    <example>
+        <title>
+        <ulink url="AlignToP-quick.txt">
+        <application>AlignToP-quick</application>
+        </ulink>
+        </title>
+
+<programlisting>
+INSERT:AlignToP-quick.txt
+</programlisting>
+</example>
+</sect1>
+
+    <sect1><title>ZeroIS</title>
+    <example>
+
+    <title>
+        <ulink url="ZeroIS.txt">
+        <application>ZeroIS</application>
+        </ulink>
+    </title>
+<programlisting>
+INSERT:ZeroIS.txt
+</programlisting>
+    </example>
+
+    <para> After dragging the image in buffer A to a new location by holding
+        the right mouse, running this small macro will bring the stage
+        to the new location, accurately. This is an easy and quick way
+        to go to a position. </para> 
+    </sect1>
+
+    <sect1>
+        <title>CropImageAToP</title>
+
+    <example>
+    <title> 
+        <ulink url="CropImageAToP.txt"><application>CropImageAToP</application></ulink>
+    </title>
+<programlisting>
+INSERT:CropImageAToP.txt
+</programlisting>
+    </example>
+
+    <para>This macro is to crop an image in buffer A -  the latest taken one to the
+    same size of the image in buffer P. This can be useful when the camera size can
+    not be flexible such as FEI's Eagle and Falcon cameras. </para>
+
+    </sect1>
+
+    <sect1> <title>Z_byG</title>
+        
+    <example>
+    <title>
+        <ulink url="Z_byG.txt">
+        <application>Z_byG</application>
+        </ulink>
+    </title>
+
+<programlisting>
+INSERT:Z_byG.txt
+</programlisting> 
+</example>
+
+    <para>This macro is to adjust specimen height to eucentricity by using tilting
+    beam method.</para>
+
+<para>Normally, we use &sft.sem;'s built-in function <application>Eucentric
+Rough</application> and <application>Eucentric Fine</application> for this
+task. These built-in functions cross-correlate image pairs from symetric stage
+tilts.  As long as correlation works fine, the functions work reliably and
+give very accurate results. It also outputs the lateral displacement for this
+specific stage and holder. They are indeed very good.  </para>
+
+<para>However, this procedure takes significant mount of time because it takes
+quite a few images at various tilting angles. After tilting to an angle, it
+needs to wait some time for the stage to settle before a stable image can be
+taken. The stage tilting most likely generates bubbling for the already quiet
+LN2 in a sided-entry cryo holder like Gatan's 626. The fact is when objective
+lens is at Eucentric Focus, for specimen at eucentricity, the image pair from
+the beam tilting will overlap. Therefore, if we put objective at calibrated
+Eucentric Focus, and we can measure the defocus and adjust specimen Z height.
+This is opposite to how we do <application> Autofocus</application>.</para> 
+
+<para>The macro command <application>SetEucentricFocus</application> in the
+macro above is to recall the calibrated value and set objective lens to
+Eucentric Focus accordingly. The defocus is measured using
+<application>Autofocus</application> routine. But we ask it to only measure the
+defocus, not to change actual defocus. This is accomplished by the argument
+"-1" in the line</para>
+
+<programlisting>
+Autofocus -1
+</programlisting>
+
+    <para>The measured defocus value is applied to stage move, in opposite
+    direction. Again, due to intrinsic error of stage movement, we have to iterate
+    to get it accurate enough. Here, we loop twice. </para> 
+
+    <para>Normalizing objective lens is also for accuracy purpose, as one can see.
+    </para>
+
+    <para>If the calibration is good, running this macro at a magnification will
+    bring stage to Eucentricity, fairly accurate.</para>
+</sect1>
+
+<sect1>
+    <title>Z_byV</title>
+
+<example>
+    <title>
+    <ulink url="Z_byV.txt">
+        <application>Z_byV</application>
+    </ulink>
+    </title>
+
+<programlisting>    
+INSERT:Z_byV.txt
+</programlisting>
+</example>
+
+    <para>This macro is similar to the macro <application>Z_byG</application>, but
+    for in Low Dose mode and using View area.  If there is a defocus offset between
+    V and R, then we need to save the defocus value for <emphasis>View</emphasis>
+    area and restore it afterwards. This is accomplished by two macro commands
+    <application>SaveFocus</application> and
+    <application>RestoreFocus</application>. </para>
+
+    <para>Interestingly, I ran into problem when I stopped macro before it reaches
+    <application>RestoreFocus</application>. The defocus value for
+    <emphasis>View</emphasis> area got forgotten. Fortunately, internal mechanism
+    of macro control takes care of this. As long as
+    <application>SaveFocus</application> is executed, the defocus value will be
+    restored even the macro is interrupted.</para>
+
+
+    <para>The command line </para>
+<programlisting>
+Autofocus -1 1
+</programlisting>
+
+    <para>means to measure the defocus using V. The last argument 1 is for View
+    area in Low Dose mode. This becomes very convenient, as we don't have to leave
+    Low Dose mode.</para>
+
+    <para>Surprisingly, the accuracy of this method is rather good. Even at relatively
+    low mag like in M range, it can be as accurate as within 1 micron or
+    so.</para>
+
+    <note> <para>Depending on the stage, it might need to iterate more than twice. I have
+    found that on our F30 which has older CompuStage it needs to loop 3 times to
+    get it real close - less than half macron. However, on F20 which has newer
+    CompuStage it only needs twice.</para>  </note>
+
+    </sect1>
+
+    <sect1>
+    <title>CalEuentricFocus</title>
+
+    <example>
+    <title>
+        <ulink url="CalEucentricFocus.txt">
+        <application>CalEuentricFocus</application>
+        </ulink>
+    </title>
+<programlisting> 
+INSERT:CalEucentricFocus.txt
+</programlisting>
+</example>
+
+
+  <para>As we see from macro <application>Z_byG</application> and
+    <application>Z_byV</application>, it is key to have EucentriFocus
+    calibrated accurately for these two macros to work accurately.
+  </para>
+
+  <para>Normally, if we calibrate this EucentriFocus manually for a
+    specific magnification, we follow the procedure as following.</para>
+
+    <procedure> 
+    <step> 
+        <para> Make sure the specimen is at Eucentricity or we call Eucentric Height.
+        We can run <application>Eucentric Both</application> on a specimen area with
+        good signal and clear features. It is useful to double check how it is when the
+        routine finishes. One can take shot and tilt stage an angle like -45 degree and
+        take another shot. Comparing the two shots gives idea if the sample is truly at
+        Eucentricity.  </para>
+    </step>
+
+    <step> 
+        <para> Set Target Defocus to 0.  </para>
+    </step>
+
+    <step> 
+        <para> Autofocus for a few times, until the defocus is adjusted to very
+        close to focus. It is recommended to normalize Objective Lens before Autofocus.
+        </para>
+    </step>
+
+    <step> 
+        <para> From menu, Calibration &rarr; Focus & AutoFocus &rarr; Standard
+        Focus.  </para>
+    </step>
+    </procedure>
+
+    <para> These steps can be done with a single macro as above. </para>
+
+        <para>Note: this is to be done at each magnification that will be used for this
+        purpose. Administrator perhaps has done for most of the magnifications.
+        Therefore, the calibration file has these values already.  However, as you
+        might use a slightly different scope alignment from what the calibration was
+        done with, it is the best to do this calibration at beginning of your session
+        as an user. This macro is aim to make this task easy.</para>
+
+    </sect1>
+
+    <sect1>
+        <title>CalEucentricFocus_View</title>
+
+    <example>
+        <title>
+        <ulink url="CalEucentricFocus_View.txt">
+        <application>CalEucentricFocus_View</application>
+        </ulink>
+        </title>
+<programlisting> 
+INSERT:CalEucentricFocus_View.txt
+</programlisting>
+</example>
+
+  <para>Same as before, it is even more convenient to do this
+    calibration in Low Dose mode with <emphasis>View</emphasis> area, as
+    it can stay in Low Dose mode and one calibration for <emphasis>
+      View</emphasis> mag would be sufficient. </para>
+
+  <para>As you can see, we need to "forget" the likely huge defocus
+    offset for <emphasis>View</emphasis>, and bring it back afterwards.
+    Otherwise, it could take long time for Objective to get close to
+    Eucentric Focus.</para>
+
+    <para>It is interesting to see the line </para>
+<programlisting>
+G 1 1 
+</programlisting>
+
+    <para> in the macro. It means to Autofocus using <emphasis>View.</emphasis>
+    </para>
+
+    </sect1>
+
+    <sect1> <title>Drift</title>
+
+    <example>
+        <title>
+        <ulink url="Drift.txt">
+            <application>Drift</application>
+        </ulink>
+        </title>
+<programlisting> 
+INSERT:Drift.txt
+</programlisting>
+    </example>
+
+    <para>This macro is modified from David's original macro "drift control". I made
+    it to output drifting rate as angstrom instead of nanometer. And I use "exit"
+    in the loop. </para>
+
+    <para>This macro can be used as standalone or be called from main macro. It
+    measures drifting rate, when the threshold is reached, it jumps to the end of
+    this macro using "break". If the threshold can be reached for number of times,
+    it exits this macro to end or if being called from main macro it exits to the
+    end of the main macro - skip this point. </para>
+
+    <para>This macro is to be called right before final exposure. It is also useful
+    with direct detector camera. We use higher threshold to avoid initial drifting
+    is too big, even with movie mode.</para>
+
+    </sect1>
+
+    <sect1><title>CycleTargetDefocus</title>
+    
+    <example>
+        <title>
+        <ulink url="CycleTargetDefocus.txt">
+            <application>CycleTargetDefocus</application>
+        </ulink>
+        </title>
+<programlisting>
+INSERT:CycleTargetDefocus.txt
+</programlisting>
+    </example>
+
+    <para>When we take many images for single particle application, we usually take
+    them in slightly different defocus value, but within certain range. This macro
+    is to be used right before <application>Autofocus</application> command in a
+    macro. It checks current TargetDefocus value, if it is still inside the range,
+    increases limit value. It cycles TargetDefocus on the fly.</para>
+
+    <para>I also took care of the case that current TargetDefocus as starting is
+    not inside the range. In this case, I let it to be the middle of the range.
+    Therefore, we don't need to care about what TargetDefocus set in the interface.
+    </para>
+
+</sect1>
+
+<sect1>
+    <title>LD</title>
+<example>
+    <title>
+    <ulink url="LD.txt">
+        <application>LD</application>
+    </ulink>
+</title>
+<programlisting>
+INSERT:LD.txt
+</programlisting>
+</example>
+
+    <para>This is the <emphasis>Main</emphasis> macro to run for single particle
+    application. It usually runs from menu Navigator &rarr; Acquire at points...
+    and as major action. Thus, all the navigator items with acquiring flag "A" will
+    run this macro, one by one. </para>
+
+    <para>This macro should not be hard to understand. It does a few things as we
+    normally do: go to a place, focus and take final image. The line </para>
+
+<programlisting>
+RealignToNavItem 1
+</programlisting>
+
+    <para>is to get current nav item to the center position using
+    <application>Realign</application> built-in routine, possibly with small mount
+    of ImageShift left. The argument "1" means to return to the initial image state
+    after the routine is done. In this case of being in Low Dose, this means to get
+    out of Low Dose to do <application>Realign</application> and return to Low Dose
+    again it finishes. We use our macro <application>ZeroIS</application> to clear
+    out the ImageShift, as explained earlier. </para>
+
+    <para>We use use <application>Autofocus</application> twice here. This is
+    because if it is little further away from target focus, only once might not get
+    close enough. Two rounds are usually sufficient. And centering beam is needed to
+    make sure beam stays centered all the time, because beam could wander away
+    with time.</para>
+
+    <para>Needless to say here, all this is on the base that the Low Dose has been
+    setup right.</para>
+
+</sect1>    
+
+<sect1>
+    <title>LD-Modulo</title>
+    <example>
+        <title>
+        <ulink url="LD-Modulo.txt">
+            <application>LD-Modulo</application>
+        </ulink>
+        </title>
+
+<programlisting>
+INSERT:LD-Modulo.txt
+</programlisting>
+    </example>
+
+    <para>The idea behind this macro is to skip some points for any of the
+    preparing tasks, but just to take a shot there. </para>
+
+    <para>For all the numbers defined by "point" in the beginning part of macro and
+    very first acquired point in a group, I ask the program to perform thses actions as
+    below.</para>
+
+    <procedure> 
+        <step> 
+            <para>Realign to that point.</para>
+        </step>
+
+        <step> 
+            <para>Adjust current specimen location to Eucentricity.</para>
+        </step>
+
+        <step> 
+            <para>Update all the points in the same group to the same Z.</para>
+        </step>
+
+        <step> 
+            <para>"Refine" X,Y position to correct the lateral shift caused by Z change.</para>
+        </step>
+
+        <step> 
+            <para>Center the beam.</para>
+        </step>
+        
+        <step> 
+            <para>Change TargetDefocus by a step.</para>
+        </step>
+
+        <step>
+            <para>Autodefous, twice.</para>
+        </step>
+        
+        <step> 
+            <para>wait for drift to settle down.</para>
+        </step>
+
+        <step> 
+            <para>Take the final shot, and save it.</para>  
+        </step>
+
+    </procedure>
+
+    <para>For all the other points between, it just "realign"s to that position,
+    and take the shot.</para>
+
+</sect1>
+
+<sect1>
+    <title>LD-Group</title>
+    <example>
+        <title>
+        <ulink url="LD-Group.txt">
+            <application>LD-Group</application>
+        </ulink>
+    </title>
+<programlisting>
+INSERT:LD-Group.txt
+</programlisting>
+</example>
+
+<para>If we draw group of points in patch fashion, then it makes sense
+    to only do some tasks for very first point item in the group. It
+    appears that this is smarter than LD-Modulo.  </para>
+</sect1>
+
+<sect1>
+    <title>TiltPair</title>
+<example>
+    <title>
+    <ulink url="TiltPair.txt">
+        <application>TiltPair</application>
+    </ulink>
+    </title>
+<programlisting>
+INSERT:TiltPair.txt
+</programlisting>
+</example>
+
+<para>Collecting tilting pair at any angles is only to set the two angles in
+the macro. I think this demonstrates how flexible &sft.sem; is.</para>
+
+</sect1>
+
+<sect1>
+<title>ZeroIS-quick</title>
+<example>
+    <title>
+    <ulink url="ZeroIS-quick.txt">
+        <application>ZeroIS-quick</application>
+    </ulink>
+    </title>
+<programlisting> 
+INSERT:ZeroIS-quick.txt
+</programlisting>
+    </example>
+
+    <para>The major difference of this one from <application>ZeroIS</application> is
+    that this one doesn't take any shot. The price paid for the speed is that the
+    position won't be quite at original where it's picked. For small size camera on
+    relatively larger hole, this might be fine. But if you want to be precisely on
+    the target position as you picked, you better off using
+    <application>ZeroIS</application> instead.</para>
+    
+</sect1>
+
+
+
+<sect1>
+    <title>PrepTS</title>
+    <example>
+    <title>
+    <ulink url="PrepTS.txt">
+    <application>PrepTS</application>
+    </ulink>
+    </title>
+
+<programlisting> 
+INSERT:PrepTS.txt
+</programlisting>
+    </example>
+
+    <para>If <application>Z_byV</application> is tested working, this macro can
+    save some time. This works the best with bi-directional method for tilting
+    series.</para>
+
+</sect1>
+
+<sect1>
+  <title>Parameters</title>
+
+  <example>
+    <title>
+      <ulink url="Parameters.txt">
+        <application>Parameters
+      </application>
+      </ulink>
+    </title>
+    <programlisting>
+INSERT:Parameters.txt
+    </programlisting>
+  </example>
+
+    <para>This is the macro only contains some variables for various macros. The
+    purpose of this macro is to set all the needed parameters in this single macro.
+    There is bascially no need to edit all the other macros. </para>
+</sect1>
+
+<sect1>
+    <title>Functions</title>
+    
+  <example>
+    <title>
+      <ulink url="MyFuncs.txt">
+        <application>MyFuncs
+      </application>
+      </ulink>
+    </title>
+<programlisting>
+INSERT:MyFuncs.txt
+</programlisting>
+  </example>
+
+  <para>Some of the library like functions can be put into a single
+      macro. The individual functions can be called from any macro or
+      even within function itself. This is new added feature.</para>
+
+</sect1>
+
+</article>

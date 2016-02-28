@@ -1,0 +1,91 @@
+MacroName LD-Modulo-P
+# Macro to run from Acquire at points... 
+# it skips some point for preparing step just take shot
+#
+# This one is for an template e.g. hole in P
+#
+# last update 2014-10-13 02:03:15
+
+Echo ===> Running LD-Modulo-P ...
+
+ResetClock
+
+## define the next line or by calling "Parameters"
+# point to do things (5,10,15...), skip between
+# let twice of that points to do Z_byV or Z_byG
+#pointXY = 5
+#pointZ = 10
+# pointZ = 0
+Call Parameters
+
+## set Z change 2 times as XY. Or set it specifially.
+# double = 12
+# double = 2 * $point
+
+############ no edit below ################
+
+# find index number for current acquire
+ReportNavItem
+echo Acquiring Item is $navAcqIndex
+remainderXY = modulo $navAcqIndex $pointXY
+remainderZ = modulo $navAcqIndex $pointZ
+
+## very first one, force two round realigning
+If $navAcqIndex == 1
+    ForceCenterRealign 
+    echo -> Very first item, ForceCenterRealign
+    echo ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Endif
+
+# find GroupStatus for current item. It is 1 for first 
+# acquire item in the group.
+# It is recommended to have a new group for each mesh.
+ReportGroupStatus
+GS = $reportedValue1
+
+## now a few actions after get to the point
+Loop 1
+RealignToNavItem 1
+
+If $remainderZ == 0 OR $GS == 1
+    Call Z_byV
+    UpdateGroupZ
+    Call AlignToP  
+Endif
+
+If $remainderXY == 0 OR $GS == 1
+AutoCenterBeam
+    Call CycleTargetDefocus
+    G
+    G
+Else
+    Call AlignToP
+Endif 
+Endloop
+
+## drift control or not is set in Parameters 
+## with SkipOrNot set value, 1 will skip. 
+Loop 1
+If $SkipOrNot == 1
+    continue 
+Else
+    Call Drift
+Endif
+EndLoop
+
+# final shots
+Loop 1
+If $k2 == 1
+    EarlyReturnNextShot $no_return
+Else
+    break
+Endif
+EndLop
+
+R
+S
+
+#clock
+ReportClock
+
+Echo ------------------------------------------------------------------

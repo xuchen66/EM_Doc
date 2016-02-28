@@ -1,0 +1,1247 @@
+Macro 0
+MacroName AlignToP-quick
+#  
+# a macro to align to an image in buffer P, only ONCE.
+# So this is rough positioning, saving some time.
+# it takes single shot and even crop it when needed. At the end, 
+# the ImageShift != 0.
+# SEM 3-5 beta built 10/10/2014
+# update @  2014-11-18 02:09:22
+
+Echo ====> Running AlignToP-quick ...
+
+SuppressReports
+
+## Low Dose
+ReportLowDose 
+If $reportedValue1 == 1
+    ImageLowDoseSet P
+    S = $reportedValue1
+ElseIf $reportedValue1 == 0
+    ImageProperties P
+    S = $reportedValue6
+Endif
+
+## get image parameters in buffer P
+ImageProperties P
+XP = $reportedValue1
+YP = $reportedValue2
+bin = $reportedValue3
+E = $reportedValue4
+# PixelSize = $reportedValue5
+#S = $reportedValue6
+
+# figure out from which set the image was taken
+#(0=view, 1=focus, 2=trial, 3=record, 4=preview)#
+If $S == 0
+    shot = View
+Elseif $S == 1
+    shot = Focus
+Elseif $S == 2 OR $S == 5
+    shot = Trial
+Elseif $S == 3
+    shot = Record
+Elseif $S == 4
+    shot = Preview
+Endif
+
+## set camera parameters
+SetExposure $S $E
+SetCenteredSize $S $bin $XP $YP
+
+## align
+Loop 1
+$shot
+# Need crop, for Camera like Eagle or Falcon?
+ImageProperties A
+XA = $reportedValue1
+YA = $reportedValue2
+If $XA > $XP OR $YA > $YP
+    echo Call CropImageAToP
+    Call CropImageAToP
+Endif
+AlignTo P
+EndLoop 
+
+## reset camera
+RestoreCameraSet
+
+EndMacro
+Macro 1
+MacroName AlignToP
+#  
+# a macro to align to an image in buffer P, twice.
+# it takes shots and even crop it when needed. At the end, 
+# the ImageShift = 0.
+# SEM 3-5 beta built 10/10/2014
+# update @  2014-11-18 02:09:34
+
+SuppressReports
+
+## Low Dose
+ReportLowDose 
+If $reportedValue1 == 1
+    ImageLowDoseSet P
+    S = $reportedValue1
+Elseif $reportedValue1 == 0
+    ImageProperties P
+    S = $reportedValue6
+Endif
+
+## get image parameters in buffer P
+ImageProperties P
+XP = $reportedValue1
+YP = $reportedValue2
+bin = $reportedValue3
+E = $reportedValue4
+# PixelSize = $reportedValue5
+#S = $reportedValue6
+
+# figure out from which set the image was taken
+#(0=view, 1=focus, 2=trial, 3=record, 4=preview)#
+If $S == 0
+    shot = View
+Elseif $S == 1
+    shot = Focus
+Elseif $S == 2 OR $S == 5
+    shot = Trial
+Elseif $S == 3
+    shot = Record
+Elseif $S == 4
+    shot = Preview
+Endif
+
+## set camera parameters
+SetExposure $S $E
+SetCenteredSize $S $bin $XP $YP
+
+## align
+Loop 2
+    $shot
+    # Need crop, for Camera like Eagle or Falcon?
+    ImageProperties A
+    XA = $reportedValue1
+    YA = $reportedValue2
+    If $XA > $XP OR $YA > $YP
+        echo Call CropImageAToP
+        Call CropImageAToP
+    Endif
+    AlignTo P
+    ResetImageShift 
+EndLoop 
+
+## reset camera
+RestoreCameraSet
+
+
+EndMacro
+Macro 2
+MacroName CalEucentricFocus
+# macro to calibrate EucentriFocus using F 
+# update @ 2014-10-22 07:55:56
+
+Echo ===> Running CalEucentricFocus ...
+
+# use SEM built-in wobbling way to get to Eucentricity
+Eucentricity 3
+
+## record original TargetDefocus
+ReportTargetDefocus 
+orig = $reportedValue1
+
+## make sure TargetDefocus is at 0
+SetTargetDefocus 0
+
+## bring Objective to eucentric
+## not to normalize because beam will be 
+## drifting afterwards.
+
+#NormalizeLenses 2
+#Delay 1
+Loop 3
+	G
+EndLoop
+
+## Cal - record the value in memory, unless in admin mode
+## and save it to calibration file.
+CalEucentricFocus
+
+## restore original target defocus
+SetTargetDefocus $orig
+EndMacro
+Macro 3
+MacroName CalEucentricFocus_View
+# macro to quickly calbrate EucentricFocus value using View in LD. 
+# update @ 2014-10-21 12:28:58
+
+Echo ===> Running CalEucentricFocus_View ...
+
+# use SEM built-in wobbling way to get to Eucentricity
+Eucentricity 3
+
+## record original TargetDefocus
+ReportTargetDefocus 
+orig = $reportedValue1
+
+## make sure TargetDefocus is at 0
+SetTargetDefocus 0
+
+## take care of LD offset
+GoToLowDoseArea V
+SaveFocus 
+SetStandardFocus 0
+
+## Bring objective to Eucentric Focus. Not use normalize
+## because it caused beam to shift (not stable) 
+#NormalizeLenses 2
+#Delay 1
+Loop 3
+# use View in LD
+	G 1 1
+EndLoop
+CalEucentricFocus
+
+## Restore Focus
+RestoreFocus 
+
+## restore original target defocus
+SetTargetDefocus $orig
+EndMacro
+Macro 4
+MacroName CropImageAToP
+# crop an image in A based on the dimension in P
+
+# update @ 2014-11-20 12:38:53
+#
+# Note: the sharp edge might cause trouble in aligning
+# need to retest more. Might need to smooth edge pixels
+
+Echo ===> Running CropImageAToP ...
+
+SuppressReports
+
+## get info for A and P
+ImageProperties P
+XP = $reportedValue1
+YP = $reportedValue2
+
+ImageProperties A
+XA = $reportedValue1
+YA = $reportedValue2
+
+Xdiff = $XA - $XP
+Ydiff = $YA - $YP
+
+half_Xdiff = $Xdiff / 2
+half_Ydiff = $Ydiff / 2
+
+X0 = $half_Xdiff 
+X1 = $XP + $half_Xdiff
+
+Y0 = $half_Ydiff 
+Y1 = $YP + $half_Ydiff
+
+# crop
+CropImage A $X0 $X1 $Y0 $Y1
+EndMacro
+Macro 5
+MacroName CycleTargetDefocus
+#
+# by Chen Xu, update @ 2014-10-21 12:12:55
+#
+# change Target Defocus on the fly
+#
+###########################################
+# Note: need 3.5 beta 
+###########################################
+
+# define defocus up and down thresholds, and changing step
+# set here or by calling Parameters
+#TD_low = -1.2
+#TD_high = -2.0
+Call Parameters
+
+step = 0.1
+
+Echo ===> Running CycleTargetDefocus ...
+Echo >>>> defined Range and Step (um)  => [ $TD_low, $TD_high ], [ $step ].
+
+######### no editing below ###############
+delta = -1 * $step
+
+# if the current TargetDefocus is outside of range, make it as TD_low.
+# Otherwise, increase a step of $delta
+
+SuppressReports
+ReportTargetDefocus 
+If $reportedValue1 > $TD_low OR $reportedValue1 < $TD_high
+   SetTargetDefocus $TD_low
+Else 
+   IncTargetDefocus $delta
+Endif
+
+ReportTargetDefocus 
+Echo TargetDefocus = $reportedValue1 um
+EndMacro
+Macro 6
+MacroName Drift
+####################################################################
+# Drift.txt
+# by Chen Xu at 10/11/2011
+# Update @ 2014-10-22 10:33:17
+# Modified from the original code by David M
+####################################################################
+#
+# A macro to measure drift rate, if good, skip to the end of loop. 
+# Otherwise, exit execution -- i.e. skip the point. 
+
+Echo ===> Running Drift ...
+
+#=============
+# parameters 
+#=============
+## drift rate threshold
+# crit = 2
+# set these above from centralized macro - Parameters 
+Call Parameters
+shot = F
+interval = 15
+times = 10
+
+period = $interval + 1
+#SuppressReports
+#ResetClock 
+
+$shot
+Delay $interval
+Loop $times index
+$shot
+AlignTo B
+ReportAlignShift
+ClearAlignment
+dx = $reportedValue3
+dy = $reportedValue4
+dist = sqrt $dx * $dx + $dy * $dy
+rate = $dist / $period * 10	
+#ReportClock
+echo Rate = $rate A/sec
+echo ----------------
+
+If $rate < $crit
+    echo Drift is low enough after shot $index      
+    break
+Elseif  $index < $times
+    Delay $interval
+Else
+    echo Drift never got below $crit: Skipping ...
+    exit   
+Endif
+EndLoop
+EndMacro
+Macro 7
+MacroName LD-Group
+
+# macro to skip points except the very first in the group.
+# assume LD is setup.
+
+# X,Y position 
+RealignToNavItem 1
+Copy A P
+# ReadFile hole.st P
+
+# preparation for first item in group
+ReportGroupStatus 
+If $repVal1 == 1 OR $repVal1 == 0
+    Call Z_byV
+    UpdateGroup Z
+    CallFunction MyFuncs::AlignToP 2
+    #CallFunction MyFuncs::ZeroIS-quick 0.3 3.0
+    AutoCenterBeam
+    CallFunction MyFuncs::CycleTargetDefocus -1.2 -2.0 0.2
+    G
+    G
+Else 
+    CallFunction MyFuncs::AlignToP 2    
+    #CallFunction MyFuncs::ZeroIS-quick 0.3 3.0
+Endif
+
+# for other in group, clear out shift and take shot
+# EarlyReturnNextShot 0
+R
+S
+
+
+EndMacro
+Macro 8
+MacroName LD-Modulo
+# Macro to run from Acquire at points... 
+# it skips some point for preparing step just take shot
+# last update @ 2014-10-23 02:30:54
+
+ResetClock
+echo ===> Running LD-Modulo ...
+
+## define the next line, or by calling "Parameters"
+# point to do things (5,10,15...), skip between
+# and do Z_byV at double space
+# pointXY = 5
+# pointZ = 12
+# pointZ = 0
+Call Parameters
+
+Echo *****
+Echo ***** Check Beam, Defocus etc. at every $pointXY_th point ... 
+Echo ***** Check Eucentricity at every $pointZ_th point...              
+Echo *****
+############ no edit below ################
+
+# find index number for current acquire
+ReportNavItem
+echo Acquiring Item is $navAcqIndex
+remainderXY = modulo $navAcqIndex $pointXY
+Loop 1
+If $pointZ == 0
+    remainderZ = 9999
+Else
+    remainderZ = modulo $navAcqIndex $pointZ
+Endif
+
+## very first one, force two round realigning
+If $navAcqIndex == 1
+    ForceCenterRealign 
+    echo -> Very first "A" item, ForceCenterRealign
+Endif
+
+# find GroupStatus for current item. It is 1 for first 
+# acquire item in the group.
+# It is recommended to have a new group for each mesh.
+ReportGroupStatus
+GS = $reportedValue1
+EndLoop
+
+## now a few actions after get to the point
+Loop 1
+# realign to that item first
+RealignToNavItem 1
+
+# what to do after realign and before Z change 
+# which type to do. 0 for precise, 1 for quick, 2 for template 
+# in buffer P already
+If $type == 0 OR $type == 1
+    Copy A P
+Elseif $type == 2
+    Echo --> type = $type -- A template is assumed in buffer P, aligned to precisely
+Elseif $type == 3
+    Echo ---> Type = $type -- align to template once, rough positioning
+Else 
+    Echo ---> Type = $type is not defined, exit... You should End Acquire
+    exit
+Endif
+
+
+# if pointZ = 0, skip Z chang i.e., not to do any Z_byV or Z_byG
+If $remainderZ == 9999
+    Echo --> Not doing Z Change,  as pointZ is set to 0.
+Elseif $remainderZ == 0 OR $GS == 1
+    Call Z_byV
+    UpdateGroupZ
+Endif
+
+# take care of XY postion after possible Z change
+If $type == 0 OR $type == 2
+    echo --> Type = $type (0:precisely, 2:template)
+    Call AlignToP 
+Elseif $type == 1
+    echo --> Type = $type (use ZeroIS-quick - rough positioning)
+    Call ZeroIS-quick
+Elseif $type == 3
+    echo --> Type = $type (use template to align one round)
+    Call AlignToP-quick
+    Call ZeroIS-quick
+Else 
+    echo --> Type = $type is not defined, exit... You should End Acquire
+    exit
+Endif
+
+# skip XY, based on remainderXY 
+If $remainderXY == 0 OR $GS == 1
+    AutoCenterBeam
+    Call CycleTargetDefocus
+   ## If focus change too much, abort and use original 
+   ## need latest beta
+    FocusChangeLimits -10 10
+    G
+    G
+Else
+    Continue
+Endif 
+Endloop
+
+## drift control or not is set in Parameters 
+## with "skip" set value, 1 will skip. 
+Loop 1
+If $skip == 1
+    continue 
+Else
+    Call Drift
+Endif
+EndLoop
+
+# final shots
+Loop 1
+If $k2 == 1
+    echo => This is a k2 camera. 
+    echo => EarlyReturnNextShot $no_return
+    EarlyReturnNextShot $no_return
+Else
+    continue
+Endif
+EndLoop
+
+R
+
+## save return image or not
+Loop 1
+if save == 1
+   S
+Else 
+   echo R image in SerialEM window is not saved ...
+Endif
+EndLoop
+
+## in case the objective went off too much
+SetStandardFocus 0
+
+#clock
+ReportClock 
+Echo $reportedValue1 seconds!
+
+Echo ------------------------------------------------------------------------
+EndMacro
+Macro 9
+MacroName LD
+# main macro for single particle data collection in Low Dose Mode
+# update @ 2014-10-23 08:01:15
+
+Echo ===> Running LD ...
+
+Call Parameters
+
+ResetClock
+
+## position (X,Y)
+RealignToNavItem 1
+Copy A P
+Call AlignToP
+
+## Center Beam, assume AutoCenterBeam policy has been set up
+AutoCenterBeam
+
+## CycleTargetFocus, range is set in macro "Parameters".
+Call CycleTargetFocus
+
+## Autofocus, twice to be more accurate 
+G
+G
+
+## Drift control
+# drift control or not is set in Parameters 
+# with skip set value, skip = 1 -> no drift control.
+Loop 1
+If $skip == 1
+    continue 
+Else
+    Call Drift
+Endif
+EndLoop
+
+# final shots, uncomment the next line for K2 camera
+Loop 1
+If $k2 == 1
+    EarlyReturnNextShot $no_return
+Else
+    break
+Endif
+EndLoop
+
+R
+
+## save return image or not
+Loop 1
+if $save == 1
+   S
+Else 
+   echo R image in SerialEM window is not saved ...
+Endif
+EndLoop
+
+ReportClock
+echo ----------------------------------------------------------------
+EndMacro
+Macro 10
+MacroName MyFuncs
+## functions which can be called from a macro 
+## or a function.
+
+#########################################
+Function CycleTargetDefocus 3 0
+## three variables, not string
+
+# define defocus up and down thresholds, and changing step
+# set here or by calling Parameters
+TD_low = $argVal1
+TD_high = $argVal2
+step = $argVal3
+
+#Call Parameters
+
+Echo ===> Running CycleTargetDefocus ...
+Echo >>>> defined Range and Step (um)  => [ $TD_low, $TD_high ], [ $step ].
+
+######### no editing below ###############
+delta = -1 * $step
+
+# if the current TargetDefocus is outside of range, make it as TD_low.
+# Otherwise, increase a step of $delta
+
+SuppressReports
+ReportTargetDefocus 
+If $reportedValue1 > $TD_low OR $reportedValue1 < $TD_high
+   SetTargetDefocus $TD_low
+Else 
+   IncTargetDefocus $delta
+Endif
+
+ReportTargetDefocus 
+TargetDefocus = $repVal1
+Echo TargetDefocus = $repVal1 um
+EndFunction 
+
+################################
+Function CropImageAToP 0 0 
+Echo ===> Running CropImageAToP ...
+
+#SupressReports
+
+## get info for A and P
+ImageProperties P
+XP = $reportedValue1
+YP = $reportedValue2
+
+ImageProperties A
+XA = $reportedValue1
+YA = $reportedValue2
+
+Xdiff = $XA - $XP
+Ydiff = $YA - $YP
+
+half_Xdiff = $Xdiff / 2
+half_Ydiff = $Ydiff / 2
+
+X0 = $half_Xdiff 
+X1 = $XP + $half_Xdiff
+
+Y0 = $half_Ydiff 
+Y1 = $YP + $half_Ydiff
+
+# crop
+CropImage A $X0 $X1 $Y0 $Y1
+EndFunction 
+
+####################################################
+Function CropImage 1 1
+## crop image in A buffer to quarter size
+## CallFunction MyFuncs::CropImage A 0.25
+buffer = $argVal1
+frac = $argVal2
+
+ImageProperties $buffer
+X = $repVal1
+Y = $repVal2
+
+halfX = $X / 2
+halfY = $Y / 2
+
+QX = $X * $frac
+QY = $Y * $frac
+
+echo $QX $QY
+
+X0 = $halfX - ( $QX / 2 )
+X1 = $halfX + ( $QX / 2 )
+Y0 = $halfY - ( $QY / 2 )
+Y1 = $halfY + ( $QY / 2 ) - 1
+
+# crop
+CropImage $buffer $X0 $X1 $Y0 $Y1
+EndFunction
+
+####################################################
+Function AlignToP 1 0
+# align round  
+# a function to align to an image against buffer P, $iter times.
+# it takes shots and even crop it when needed. At the end, 
+# the ImageShift = 0.
+# SEM 3-5 beta built 10/10/2014
+# update @  2014-11-18 02:09:34
+
+iter = $argVal1
+
+SuppressReports
+
+## Low Dose
+ReportLowDose 
+If $reportedValue1 == 1
+    ImageLowDoseSet P
+    S = $reportedValue1
+Elseif $reportedValue1 == 0
+    ImageProperties P
+    S = $reportedValue6
+Endif
+
+## get image parameters in buffer P
+ImageProperties P
+XP = $reportedValue1
+YP = $reportedValue2
+bin = $reportedValue3
+E = $reportedValue4
+# PixelSize = $reportedValue5
+#S = $reportedValue6
+
+# figure out from which set the image was taken
+#(0=view, 1=focus, 2=trial, 3=record, 4=preview)#
+If $S == 0
+    shot = View
+Elseif $S == 1
+    shot = Focus
+Elseif $S == 2 OR $S == 5
+    shot = Trial
+Elseif $S == 3
+    shot = Record
+Elseif $S == 4
+    shot = Preview
+Endif
+
+## set camera parameters
+SetExposure $S $E
+SetCenteredSize $S $bin $XP $YP
+
+## align
+Loop $iter
+    $shot
+    # Need crop, for Camera like Eagle or Falcon?
+    ImageProperties A
+    XA = $reportedValue1
+    YA = $reportedValue2
+    If $XA > $XP OR $YA > $YP
+        echo CallFunction  MyFuncc::CropImageAToP
+        CallFunction  MyFuncs::CropImageAToP
+    Endif
+    AlignTo P
+    ResetImageShift 
+EndLoop 
+
+## reset camera
+RestoreCameraSet
+EndFunction 
+
+######################################################
+Function ZeroIS-quick 2 0
+# two arguments are -  shift threshold and dead shift (too large)
+
+# 2014-10-21 12:05:23
+
+Echo ===> Running ZeroIS-quick ...
+
+limit = $argVal1
+dead = $argVal2
+
+#- no editing below -#
+
+# IS from Realign routine
+ReportImageShift
+X = $reportedValue1
+Y = $reportedValue2
+IS = sqrt $X * $X + $Y * $Y
+
+If $IS <= $limit
+    ClearAlignment
+    echo IS ($IS) <= limit ($limit) um
+    echo Clearalignment
+Elseif $IS > $limit AND $IS <= $dead
+    echo IS ($IS) > limit ($limit) um
+    echo Resetimageshift
+    ResetImageShift
+Else 
+    Echo IS ($IS) > $dead um, skip this point!
+Endif
+EndFunction 
+
+################################################
+Function FixBeamCenter 0 0 
+ReportLowDose 
+If $repVal1 == 0
+     ChangeMag -5
+     T
+    CenterBeamFromImage 
+    ChangeMag +5 
+ElseIf $repVal1 == 1
+     SetLowDoseMode 0
+     ChangeMag -5
+     T
+    CenterBeamFromImage 
+    SetLowDoseMode 1
+Endif 
+EndFunction 
+
+###################################################
+Function Drift 1 0 
+# A function to measure drift rate, if good, skip to the end of loop. 
+# Otherwise, exit execution -- i.e. skip the point. 
+
+Echo ===> Running Drift $argVal1(A)...
+
+#=============
+# parameters 
+#=============
+## drift rate threshold
+crit = $argVal1
+# set these above from centralized macro - Parameters 
+shot = F
+interval = 15
+times = 10
+
+period = $interval + 1
+#SuppressReports
+#ResetClock 
+
+$shot
+Delay $interval
+Loop $times index
+$shot
+AlignTo B
+ReportAlignShift
+ClearAlignment
+dx = $reportedValue3
+dy = $reportedValue4
+dist = sqrt $dx * $dx + $dy * $dy
+rate = $dist / $period * 10	
+#ReportClock
+echo Rate = $rate A/sec
+echo ----------------
+
+If $rate < $crit
+    echo Drift is low enough after shot $index      
+    break
+Elseif  $index < $times
+    Delay $interval
+Else
+    echo Drift never got below $crit: Skipping ...
+    exit   
+Endif
+EndLoop
+EndFunction
+
+######################################################
+Function CalEucFocus 0 0
+# macro to calibrate EucentriFocus using F 
+# update @ 2014-10-22 07:55:56
+
+Echo ===> Running CalEucFocus ...
+Echo *** Assuming specimen is already at Eucentricitt ***
+
+# use SEM built-in wobbling way to get to Eucentricity
+#Eucentricity 3
+
+## record original TargetDefocus
+ReportTargetDefocus 
+orig = $reportedValue1
+
+## make sure TargetDefocus is at 0
+SetTargetDefocus 0
+
+## bring Objective to eucentric
+## not to normalize because beam will be 
+## drifting afterwards.
+
+#NormalizeLenses 2
+#Delay 1
+Loop 3
+	G
+EndLoop
+
+## Cal - record the value in memory, unless in admin mode
+## and save it to calibration file.
+CalEucentricFocus
+
+## restore original target defocus
+SetTargetDefocus $orig
+EndFunction
+
+####################################################################
+Function CalEucFocus_View 0 0
+# macro to quickly calbrate EucentricFocus value using View in LD. 
+# update @ 2014-10-21 12:28:58
+
+Echo ===> Running CalEucFocus_View ...
+Echo *** Assuming specimen is already at Eucentricity ***
+
+# use SEM built-in wobbling way to get to Eucentricity
+#Eucentricity 3
+
+## record original TargetDefocus
+ReportTargetDefocus 
+orig = $reportedValue1
+
+## make sure TargetDefocus is at 0
+SetTargetDefocus 0
+
+## take care of LD offset
+GoToLowDoseArea V
+SaveFocus 
+SetStandardFocus 0
+
+## Bring objective to Eucentric Focus. Not use normalize
+## because it caused beam to shift (not stable) 
+#NormalizeLenses 2
+#Delay 1
+Loop 3
+# use View in LD
+	G 1 1
+EndLoop
+CalEucentricFocus
+
+## Restore Focus
+RestoreFocus 
+
+## restore original target defocus
+SetTargetDefocus $orig
+EndFunction
+
+###############################################################
+Function Z_byG 0 0
+#
+# a function to adjust the eccentric center using beam tilted pairs.
+# It uses Autofocus to measure the focus and adjust Z instead.
+#
+
+Echo ===> Running Z_byG ...
+
+# If in Low Dose, the area should be at Focus first
+# before defocus is zeroed, because it could come from V with 
+# large defocus offset. It could float up in that case. 
+
+SuppressReports
+ReportLowDose
+# if in LowDose and area is V
+If $reportedValue1 == 1 AND $reportedValue2 == 0
+  GoToLowDoseArea F
+Endif 
+
+#==================
+# set objective lens 
+#==================
+SetEucentricFocus
+#NormalizeLenses 2
+#Delay 1
+
+#===========
+# Adjust Z
+#===========
+Loop 2
+Autofocus -1
+ReportAutofocus 
+t = -1 * $reportedValue1
+MoveStage 0 0 $t
+echo --> Z moved $reportedValue1 micron 
+EndLoop
+EndFunction
+
+#########################################################
+Function Z_byV 0 0
+
+Echo ===> Running Z_byV ...
+#====================================
+# for defocus offset of V in Low Dose, save it
+# ===================================
+GoToLowDoseArea V
+SaveFocus
+
+#==================
+# set object lens 
+#==================
+SetEucentricFocus
+#NormalizeLenses 2
+#Delay 1
+
+#===========
+# Adjust Z
+#===========
+Loop 2
+Autofocus -1 1
+ReportAutofocus 
+Z = -1 * $reportedValue1
+MoveStage 0 0 $Z
+echo Z has moved --> $Z micron 
+EndLoop
+
+#=========================================
+# restore the defocus set in V originally
+# ========================================
+RestoreFocus
+EndFunction
+
+
+EndMacro
+Macro 11
+MacroName Parameters
+# macro to include all the parameters used in all the macros
+# It should be called in the beginning of any main macro
+
+# 2014-10-21 12:08:06
+
+Echo ---> calling Parameters ...
+
+## for LD-Modulo 
+# 1) type to do 
+# type = 0 -> Precisely to the picked point
+# type = 1 -> Use ZeroIS-quick, i.e. rough positioning
+# type = 2 -> Align to template in P twice, precisely
+# type = 3 -> Align to template once, rough positioning
+type = 3
+
+# 2) points to do things. Skip between those points.
+# E.g. pointXY = 7, pointZ = 14, do XY at 7th, and Z at 14th
+# E.g. pointZ = 0 -> not do Z change at all
+# E.g. pointXY = pointZ = 1, do everything at everything point
+#      i.e. not to skip any point. 
+pointXY = 1
+pointZ = 1
+
+## for CycleTargetDefocus (um), default step is 0.1(um)
+TD_low = -1.2
+TD_high = -2.2
+
+## for Drift 
+# skip = 1 -> no drift control
+# skip = 0 -> drift control
+# drift rate threshold (A/sec.), only get used for skip = 0
+skip = 1
+crit = 5
+
+## K2 special, is this a K2 camera. 1 for yes, 0 for no.
+# this is for no return for Record Frame exposure for a K2 camera.
+# how many first frames to return sum, only get used for k2 = 1
+k2 = 0
+no_return = 0
+
+## for movie collection on K2 or Falcon Hack, return sum to SEM might 
+## not need to be saved. Set "save" to 1 to save or 0 not to save.
+save = 1
+EndMacro
+Macro 12
+MacroName PrepTS
+# macro to prepare for Tilting Series
+# It brings to each of the picked item and
+# refine eucentricity using tilting beam method.
+# This is used from Acquire at points... as pre-action macro.
+#
+# It is similar to "refine and realign", but without wobbling 
+# the stage
+#
+# update @ 2014-10-22 08:21:20
+
+Echo ===> Running PrepTS ...
+
+# realign to 
+RealignToNavItem 1
+
+# copy last image to buffer P
+Copy A P
+
+# not adjust Z height, in LD with View area
+Call Z_byV
+
+# refine position, incase the lateral displacement 
+# is siginificant after Z height change
+Call AlignToP
+EndMacro
+Macro 13
+MacroName TiltPair
+###############################
+# TiltPair.txt
+# update @ 2014-10-21 12:21:06
+###############################
+#
+# A main macro for Tilting image pairs. 
+# work for any two angles
+
+Echo ===> Running TiltPair ...
+ResetClock
+
+# set angles 
+ang_1 = 0
+ang_2 = 45
+
+# Make sure it starts with 0, in case it was stopped at 
+# some angle from last round
+TiltTo 0
+
+# collect tilting pairs 
+Loop 2 i
+if $i == 1
+   ang = $ang_1
+else
+   ang = $ang_2
+endif
+
+RealignToNavItem 1
+WalkUpTo $ang
+Call ZeroIS
+AutoCenterBeam
+G
+G
+Call Drift
+R
+S
+EndLoop
+
+# back to 0
+TiltTo 0
+
+ReportClock
+echo -------------------------------------------------------------
+EndMacro
+Macro 14
+MacroName Z_byG
+##############################
+# Z_byG.txt
+# Updated @ 2014-10-21 12:22:49 
+##############################
+#
+# a macro to adjust the eccentric center using beam tilted pairs.
+# It uses Autofocus to measure the focus and adjust Z instead.
+#
+
+Echo ===> Running Z_byG ...
+
+# If in Low Dose, the area should be at Focus first
+# before defocus is zeroed, because it could come from V with 
+# large defocus offset. It could float up in that case. 
+
+SuppressReports
+ReportLowDose
+# if in LowDose and area is V
+If $reportedValue1 == 1 AND $reportedValue2 == 0
+  GoToLowDoseArea F
+Endif 
+
+#==================
+# set objective lens 
+#==================
+SetEucentricFocus
+#NormalizeLenses 2
+#Delay 1
+
+#===========
+# Adjust Z
+#===========
+Loop 2
+Autofocus -1
+ReportAutofocus 
+t = -1 * $reportedValue1
+MoveStage 0 0 $t
+echo --> Z moved $reportedValue1 micron 
+EndLoop
+
+#=== end ====
+EndMacro
+Macro 15
+MacroName Z_byV
+##############################
+# Z_byV.txt
+# by Chen Xu, Oct  23, 2010, 
+# Last modified: @ 2014-10-21 12:26:18
+##############################
+# 
+
+Echo ===> Running Z_byV ...
+
+#====================================
+# for defocus offset of V in Low Dose, save it
+# ===================================
+GoToLowDoseArea V
+SaveFocus
+
+#==================
+# set object lens 
+#==================
+SetEucentricFocus
+#NormalizeLenses 2
+#Delay 1
+
+#===========
+# Adjust Z
+#===========
+Loop 2
+Autofocus -1 1
+ReportAutofocus 
+Z = -1 * $reportedValue1
+MoveStage 0 0 $Z
+echo Z has moved --> $Z micron 
+EndLoop
+
+#=========================================
+# restore the defocus set in V originally
+# ========================================
+RestoreFocus
+EndMacro
+Macro 16
+MacroName ZeroIS-quick
+# macro to clears out IS by either using 
+# Clearalignment or Resetimageshift, depending on
+# the limit set. And if the left over IS from Realign 
+# is too big, skip this point, likely someting is wrong.
+
+# 2014-10-21 12:05:23
+
+Echo ===> Running ZeroIS-quick ...
+
+# position off limit in micron, now set in macro "Parameters"
+limit = 0.3
+#Call Parameters
+
+dead = 3.0
+
+############### no editing below ###################
+
+# IS from Realign routine
+ReportImageShift
+X = $reportedValue1
+Y = $reportedValue2
+IS = sqrt $X * $X + $Y * $Y
+
+Loop 1
+If $IS <= $limit
+    ClearAlignment
+    echo IS ($IS) <= limit ($limit) um
+    echo Clearalignment
+Elseif $IS > $limit AND $IS <= $dead
+    echo IS ($IS) > limit ($limit) um
+    echo Resetimageshift
+    ResetImageShift
+Else 
+    Echo IS ($IS) > $dead um, skip this point!
+    exit
+Endif
+EndLoop
+EndMacro
+Macro 17
+MacroName ZeroIS
+# a macro to to to a new position in current image
+#
+# update @ 2014-10-22 05:29:51
+
+Copy A P
+Call AlignToP
+EndMacro
