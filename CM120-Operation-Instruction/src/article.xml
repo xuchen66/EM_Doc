@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<!DOCTYPE article PUBLIC "-//FreeBSD//DTD DocBook XML V4.2-Based Extension//EN"
+	"../../../share/xml/freebsd42.dtd" [
+<!ENTITY % entities PUBLIC "-//FreeBSD//ENTITIES DocBook FreeBSD Entity Set//EN" "../../share/xml/entities.ent">
+<!ENTITY tem.f20 "<emphasis>Tecnai F20</emphasis>">
+<!ENTITY tem.f30 "<emphasis>Tecnai F30</emphasis>">
+<!ENTITY cm120 "<emphasis>CM120</emphasis>">
+%entities;
+]>
+
+
+<article>
+  <articleinfo>
+    <title>CM120 Operation Instruction</title>
+
+    <author>
+      <firstname>Chen</firstname>
+      <surname>Xu</surname>
+      <affiliation>
+		<address><email>Chen.Xu@umassmed.edu</email></address>
+      </affiliation>
+    </author>
+
+   <pubdate>
+2016-02-27 06:31:45
+   </pubdate>
+
+    <abstract>
+		<para> This document tries to list steps and procedures for a typical
+		daily operation on &cm120;. You can use it as guidebook to help you when you
+		are sitting with &cm120;, especially if you are a new user. I here assume you
+		are already familiar with scope interface, what the knobs and buttons do etc..
+		You might use the section titles as quick bullet points, but the explanation
+		inside each sections are supposed to be useful and informative.  <ulink
+		url="article.pdf">A pdf version of this document</ulink> is also available.
+		</para>
+
+		<para>If you have suggestion how to improve this document to make it more
+		useful, please feel free to let me know. Thank you! </para>  
+
+		<para>NOTE: all the turning knobs on the panel and push buttons are
+		marked in <application>Bold</application>.</para>
+    </abstract>
+
+  </articleinfo>
+
+
+  <sect1> <title>Check log book to see if there have been any problems</title>
+
+    <para> It is always a good idea to check the LOG book. You can find
+      useful information listed there, such as: </para>
+
+    <itemizedlist> 
+	  <listitem> <para> If there have been any recent problems with the scope.  </para> </listitem>
+      <listitem> <para> The conditions that were used last, especially the filament saturation.  </para> </listitem>
+      <listitem> <para> Any special note that last user wants you to know. </para>
+      </listitem>
+    </itemizedlist>
+  </sect1>
+  
+  <sect1> <title>Check vacuum status</title> 
+
+    <para> The status must be <emphasis>Ready</emphasis> before you can operate the scope.
+      If not, you should ask for help and report it to the manager.
+      Usually, if the vacuum is not ready, it is due to one of the
+      following reasons: </para>
+
+	<itemizedlist> 
+	   <listitem> <para> The scope is malfunctioning.  </para> </listitem>
+	   <listitem> <para> The air pressure is not within a good range(the building compressed air may be down?). </para> </listitem>
+	   <listitem> <para> The cooling water is off.  </para> </listitem>
+	</itemizedlist>
+
+	<para>Vacuum being <emphasis>Ready</emphasis> means:</para>
+
+	<itemizedlist> 
+		<listitem> <para> Top line of vacuum page shows "ready". </para> </listitem>  
+		<listitem> <para> <devicename>P3</devicename> &lt; 50,  <devicename>IGP</devicename> &lt; 26 (normally, they are shown 0, 5).</para> </listitem> 
+		<listitem> <para> LEDs for UVAC and HiVAC are lit. </para> </listitem> 
+	</itemizedlist>  	
+  </sect1>
+  
+  <sect1> <title>Add Liquid Nitrogen to the BIG anti-contaminator dewar</title>
+    
+		<para> LN2 in the cold trap dewar is necessary for fast vacuum recovery.
+		It is very useful, especially when you need to change grids and/or do a cryo
+		session. However, if you are working with a negative stain or plastic section - a
+		dry grid, the scope can still run without LN2 cold trap. Unless you are running
+		automatic, long overnight session, you should always use it. </para>
+    
+    <note> <para> Generally, when you first put LN2 dewar to its stand, you want to
+		be SLOW, or the strong evaporation will make LN2 spilling.  </para> </note>
+  </sect1>
+
+  <sect1><title>Apply High Tension</title>
+	  <para> Turn High Tension (H.T.) on if it is off by pressing the
+		<application>H.T.</application> button on the panel. From
+		<application>Parameter</application> page, set it to 120kV or the voltage you
+		want. </para>
+  </sect1>
+
+  <sect1> <title>Turn filament on</title>
+		<para> It is recommended to turn the filament on while on the
+		<application>configuration</application> page where the actual filament current
+		number is shown and the <application>limit</application> can be
+		checked(highlighted).  </para>
+  </sect1>
+
+  <sect1> <title>Check saturation and gun tilt, and then saturate the filament.</title>
+	  <para> The procedure is as following:.  </para>
+
+     <itemizedlist> 
+      <listitem> <para> Desaturate the filament about 2-3 clicks.  </para> </listitem>
+      <listitem> <para> Press <application>Align</application> button, highlight <application>Gun Tilt</application>.  </para> </listitem>
+      <listitem> <para> Adjust the <application>multi-function X, Y</application>
+          				to get the best shape for the tip and maximum intensity as well. </para> </listitem>
+      <listitem> <para> Bring the filament current to saturation.  </para> </listitem>
+     </itemizedlist>
+  </sect1>
+
+  <sect1> <title>Check C2 aperture mechanical position and C2 stigmatism</title>
+    <para> Steps to adjust the C2 aperture mechanical position are:  </para>
+	
+    <itemizedlist> 
+    	<listitem> <para> Make sure the C2 aperture is in.  </para> </listitem>
+
+      <listitem>
+			<para> At around 5kX, cross the beam first and center beam using deflectors
+			(<application>Beam Shift X,Y</application>), then spread the beam until its
+			diameter is close to 5cm ring on the screen. Adjust screws X &amp; Y on C2
+			aperture to center the beam.  Repeat this process 2-3 times.  </para>
+      </listitem>
+
+      <listitem> 
+			<para> At high mag ~30kX or higher, change the
+			<application>intensity</application> of beam(C2) through the crossover and
+			adjust the screws X & Y to make the beam symmetric when spreading out.  </para>
+      </listitem>
+        </itemizedlist>
+        
+          <para> 
+            There are two ways to check and adjust the <devicename>C2</devicename> stigmatism:
+          </para>
+        <itemizedlist> 
+          <listitem> 
+            <para> When the filament is desaturated, press
+              <application>Stig</application> button and select
+              <application>Cond</application>, then adjust
+              <application>Multi-function knobs</application> so that the details in the filament
+              shadowing image can be clearest and sharpest.  </para>
+          </listitem>
+
+          <listitem> 
+            <para> When changing the beam intensity, use the
+              <application>Multi-function knobs</application> to adjust the beam into symmetric and
+              "round" shape, i.e. not elliptical.  </para>
+          </listitem>
+      </itemizedlist>
+			
+			<note>
+				<para>For this purpose, don't pay attention to the beam shape when beam is
+				exactly at cross point, as that more reflects the shape of the crystal tip,
+				rather than stigmatism. You want to make beam "round" when spreat
+				out. </para> 
+			</note>
+  </sect1>
+
+  <sect1> <title>Check specimen holder &amp; load grid</title>
+  
+		<para> This is important. If you see any problem with any of the holders,
+		report it to the manager <emphasis>immediately</emphasis>. Otherwise, you could
+		be the one held accountable for the damage. Several details about the holder
+		must be checked carefully before use: </para>
+
+   <itemizedlist> 
+   	<listitem> <para> Overall shape is good, and there is not obvious damage.  </para> </listitem>
+
+	<listitem> 
+		<para> Make sure there is no crack or any other damage on the O-ring. If you
+		do see a damage, like a cut etc., ask manager to replace it for you. Check if
+		there any dirt or fibril on the O-ring. You might want to clean it gently
+		with alcohol and slightly re-grease it. Do not over-grease. The main function
+		of the grease is to lubricate. </para>
+	</listitem>
+   </itemizedlist>
+
+      <para> Gently secure the specimen grid on its position. Use the
+        tool pin to open and close the clamping device.  </para>
+  </sect1>
+
+  <sect1> <title>Insert specimen holder into column</title>
+	<important>
+    <para> Be careful! Only at this stage, you might damage the scope or
+      specimen holder <emphasis>mechanically</emphasis>. Be sure that
+      you understand what you are doing. Should you feel any confusion
+      about this procedure, please stop and ask for help.  </para>
+	</important>
+
+	<note>
+		<para> For the sake of filament crystal, it is REQUIRED to turn down the
+		filament to <emphasis>10</emphasis> before inserting the specimen rod. That way, in case
+		<devicename>IGP</devicename> shoots high, there will be no subtancial damage to
+		the LaB6 tip crystal. In general, filament should be kept at
+		<emphasis>10</emphasis> or completely off until <devicename>IGP</devicename>
+		recovers to below <emphasis>26</emphasis>.  </para>
+    </note>
+
+		<para>The procedure to insert a room temperature specimen rod is below.</para>
+
+		<itemizedlist>
+		<listitem> <para> define airlock pumping time as 60 seconds, from Vacuum - Cryo page.</para></listitem>
+		<listitem> <para> Reset stage tilt angle to 0 if it is not.</para></listitem>
+		<listitem> <para> Insert rod in, with the Pin at 3'oclock position. </para></listitem>
+		<listitem> <para> As soon as it reach the end, rotate rod CLOCKWISE with some pushing force 
+							so that the pin slides into the locking groove at 5'oclock position. You should feel the
+							rod goes "in" about 8mm.</para></listitem>
+		<listitem> <para> Wait until the red LED on the stage disappears. Dismiss the "non-standard" 
+							flushing message on the screen by pressing "Reset" button at lower left corner of the screen display. </para></listitem>
+		<listitem> <para> Turn rod Counter-Clockwise until pin is at 12'oclock position, while watching 
+		<devicename>IGP</devicename> reading. You should adjust your rotating speed to keep <devicename>IGP</devicename> &lt; <emphasis>40</emphasis>. </para></listitem>
+		</itemizedlist>
+
+  </sect1>
+
+  <sect1> <title>Adjust the specimen height to the eucentric height</title>
+		<para>Eucentricity is a fixed reference point in a scope. It is the
+			intercross point of stage axis and column axis. We want to observe our specimen
+			grid at this height level so that the actual magnification doesn't differ much
+			from day to day. And scope is designed to perform better when specimen is at
+			such height. It is good to have the habbit to always adjust specimen to eucentric
+			height after rod insertion. On &cm120;, the procedure is as following:</para>
+
+		<itemizedlist> 
+		<listitem> <para> Have beam seen on large screen, at ~3000X, and find a feature on the grid.</para></listitem>
+		<listitem> <para> rotate stage back and forth by pressing <application>CompuStage</application> - <application>A-wobbler</application>.</para></listitem>
+		<listitem> <para> Adjust <devicename>joystick Z</devicename> to minimize the shifting of the feature.</para></listitem>
+		</itemizedlist>
+
+  </sect1>
+
+  <sect1> <title>Check Beam Tilt Pivot Point X, Y</title>
+
+      <note> 
+		<para> The prerequisites for Pivot-Point is specimen being at eucentric height
+		and objective being preceisly at focus level.  </para> 
+      </note>
+
+	<itemizedlist>
+		<listitem> <para> Make sure the specimen is at eucentric height.</para></listitem>
+		<listitem> <para> Take out Obj. aperture.  </para> </listitem>
+		<listitem> <para> Press button <application>Align</application> - <application>Direct Alignment</application> - <application>Beam Tilt Pivot X</application>.</para> </listitem>
+		<listitem> <para> Merge image feature by adjusting <application>Focus</application> knob. This is to <emphasis>precisely</emphasis> focus the image.</para></listitem>
+		<listitem> <para> Merge beam using <application>Multi-fcuntion knobs</application>.</para></listitem>
+        <listitem> <para> Repeat the last two steps for <application>Beam Tilt Pivot Y</application>.</para></listitem>
+        <listitem> <para> Press <application>Align</application> button again to exit.</para></listitem>
+	</itemizedlist>
+  </sect1>
+  
+  <sect1> <title>Check voltage and current rotation centers </title>
+		<para> This step is to align the beam to make it parallel to the axis
+		of the column. The purpose of this step is to make beam to hit specimen
+		perpendicularly. A coma is not a good thing, as it generates some phase
+		error to the data.  </para>
+
+		<para>The procedure is below.</para>
+
+	<itemizedlist> 
+	  <listitem> <para> Press <application>Align</application> button and select <application>Rotation Center</application>.  </para> </listitem>
+	  <listitem> <para> Select <application>Voltage</application> or <application>Current</application> from the same page.  </para> </listitem>
+	  <listitem> <para> Adjust the <application>Multi-function Knobs</application> to let the wobbling be symmetrical around the center of the beam. The feature at very center of the large screen has minimum shift.</para> </listitem>
+  	  <listitem> <para> If you perform this with Obj aperture in, then re-check the certering of objective aperture.</para> </listitem>
+	</itemizedlist>
+
+	<note> 
+	  <para> The step size button on <application>Focus</application> is
+		used to control the amplitude of the beam wobbling.  </para>
+
+	  <para> The steps used here only give "roughly" parallel beam to the axis.
+		If you need very acurate "0" tilt beam, a different alignment procedure -
+		Coma-Free is needed.  </para>
+	</note>
+  </sect1>
+
+  <sect1> <title>Put in objective aperture and center it</title>
+		<para> It is important to know what size of the  obj.  aperture you are
+			using. You don't want to use too small size to actual cut off useful high
+			resolution signal. Meantime, you don't want to use the aperture size too large,
+			as the non-usable high resoltion beam becomes noise to your image. This reduces
+			signal to noise ration unneccesarily. </para>
+
+		<para>The position of the aperture could affect the obj. lens stigmatism.
+			Therefore, you want to do this step before you finally check Obj lens
+			stigmatism. </para>
+
+		<para>Here are the steps to insert and center Objective lens aperture: </para>
+
+	<itemizedlist> 
+		<listitem> <para> Make sure the large screen is down, to prevent CCD from damage.  </para> </listitem>
+	   	<listitem> <para> Switch to diffraction mode by pressing the diffraction "D" button.  </para> </listitem>
+		<listitem> <para> Adjust camera length to ~1m using magnification knob. </para></listitem>
+	   	<listitem> <para> Adjust the <application>Intensity</application> (C2) and <application>Defocus</application> 
+					knobs to see the shape edge of the obj. aperture.  </para> </listitem>
+	    <listitem> <para> Adjust the related mechanical screws on aperture holder to choose the proper size of the aperture and 
+					center it to the central beam on diffraction pattern.  </para> </listitem>
+		<listitem> <para> Switch back to image mode by pressing <application>D</application> button again.  </para> </listitem>
+	</itemizedlist>
+	
+  </sect1>
+
+  <sect1> <title>Check Objective Lens stigmatism</title>
+
+		<para> The obj. stigmatism should be corrected as much as possible, and
+			it should be checked for <emphasis>every</emphasis> netative stain low-dose
+			image that you are taking, as staining material might change field in local 
+			area.  This is a bit hard by hand. Even with lastest version 
+			of SerialEW, this can be done by software, it is still not easy and time 
+			efficient. However, slight stigmated image is not critically bad, as 
+			it can be corrected as part of CTF correction computationally. </para>
+
+ 		<para> Here are steps to correct Obj lens stigmatism, manually:</para>
+
+	<itemizedlist> 
+	  <listitem> <para> Go to a relatively high mag., such as 100,000X, and focus the image.  </para> </listitem>
+	  <listitem> <para> If possible, acquire continous CCD image with live FFT so Thon rings can be seen.</para></listitem>
+	  <listitem> <para> Press the <application>Stig</application> button, highlight
+        <application>Obj</application>, and select proper stepsize.  </para> </listitem>
+	  <listitem> <para> Adjust the stigmatism using <application>Multi-function knobs</application> until it
+        becomes minimum at all defocus levels. (It shows up more at close to focus.) </para> </listitem>
+	</itemizedlist>
+  </sect1>
+
+  <sect1> <title>Typical Low-Dose setup parameters</title>
+		<para> Here are some typical setup for Low-Dose condition.  </para>
+
+	<itemizedlist>
+		<listitem> <para> Search: Mag=2650X(3000X with screen up), Spotsize=3-5, image mode </para>
+
+			<para> Alternatively, at 2650-3400x, switch to Diff. mode by pressing
+				"Diff" button.  Adjust camera length to 680mm using "Mag" knob.  Focus the
+				diffraction spot using <application>Focus</application> knob, and then adjust
+				"defocus" until the image inside central spot expands to proper size.
+				Personally, I like to "defocus" to clockwise side. What you got is a shadowing
+				image inside of defocused diffraction central beam. The advantage of this is
+				high contrast compared to a normal image mode.</para>
+		</listitem>
+
+		<listitem>
+			<para> Focus: Mag=175kX, Spotsize=6. When work with tilting stage,
+				make sure S1 or S2 sits on tilting axis of the geonimeter, the angles will posted on
+				the panel.  </para>
+		</listitem>
+
+		<listitem> <para> Record: Mag=53000X(60kX), spotsize=3-5 </para> </listitem>
+	</itemizedlist>
+
+  </sect1>
+
+  <sect1> <title>Align an identified area under <application>Exposure</application> and <application>Search</application></title>
+	    <para>
+		  This step is to insure that what you see under low mag. (Search
+		  mode) will be the same area you get under imaging mag. Here is how
+		  I do it: </para>
+
+	<itemizedlist> 
+	  <listitem> <para> At Exposure mode, MECHANICALLY drive an identified spot to the centber of the screen.  </para> </listitem>
+	  <listitem> 
+		<para> At Search mode(and usually in Diffraction mode also), using the
+			<application>Multi-function knobs</application> to backtrack the identified
+			spot at the center of the screen (electronically). This uses Image Shift or
+			Diffaction Shift (when Search mode is set up in Diff mode) to "shift" image
+			without actually moving the stage position.  </para> </listitem>
+	 </itemizedlist>
+
+	  <note>
+	    <para> You can use a corner of a mesh as the identified spot for a
+		  negative stain specimet or to use an ice burn mark in the cryo
+		  case.  </para>
+	  </note>
+  </sect1>
+
+  <sect1> <title>Check S1 and S2 parameters</title>
+	    <para> In Focus mode, S1 and S2 are linked to the positions of the beam
+		  which is deflected away from the center of the imaging area on the
+		  specimen. When highlighted, their parameters can be changed by the
+		  Multi-function keys.  </para>
+
+	    <para> Normally, we use 175kX as the magnification. The radius of the
+		  spot is about 1.5 microns. Depending on the specimen, you can change those
+		  parameters to fit your needs.  </para>
+  </sect1>
+
+	<sect1><title>Finishing Up</title>
+		<para> When you are done with your session, perform finishing up procedure.</para>
+
+	<itemizedlist>
+		<listitem> <para> Specimen rod out.</para> </listitem>
+		<listitem> <para> Reset Stage Position, X, Y, Z and A.</para></listitem>
+		<listitem> <para> Filament 0.</para></listitem>
+		<listitem> <para> H.T. OFF.</para></listitem>
+		<listitem> <para> Cryo-cycle, normally for 2-3 hours.</para></listitem>
+		<listitem> <para> Data display OFF.</para></listitem>
+		<listitem> <para> Display OFF.</para></listitem>
+		<listitem> <para> Log your session on logbook.</para></listitem>
+	</itemizedlist>
+	</sect1>
+
+</article>
+
