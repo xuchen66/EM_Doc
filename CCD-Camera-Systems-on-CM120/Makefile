@@ -13,6 +13,10 @@ WITH_INLINE_LEGALNOTICE?=YES
 INSTALL_COMPRESSED?= gz
 INSTALL_ONLY_COMPRESSED?=
 
+IMAGES=  Orius-831.png
+IMAGES+= 224HD.png
+#IMAGES+=
+
 # 
 # SRCS lists the individual SGML files that make up the document. Changes
 # to any of these files will force a rebuild
