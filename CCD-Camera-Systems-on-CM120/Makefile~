@@ -14,13 +14,8 @@ INSTALL_ONLY_COMPRESSED?=
 
 SRCS=   article.xml
 
-IMAGES_EN=	orius-224hd.png
-#IMAGES_EN+=	vinum-mirrored-vol.pic
-#IMAGES_EN+=	vinum-raid10-vol.pic
-#IMAGES_EN+=	vinum-raid5-org.pic
-#IMAGES_EN+=	vinum-simple-vol.pic
-#IMAGES_EN+=	vinum-striped-vol.pic
-#IMAGES_EN+=	vinum-striped.pic
+IMAGES_EN=		orius-224hd.png
+IMAGES_EN+= 	front-back-orius-controller
 
 URL_RELPREFIX?= ../../../..
 DOC_PREFIX?=    ${.CURDIR}/../../..
