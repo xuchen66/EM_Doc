@@ -227,14 +227,15 @@
       <title xml:id="temperature">A Note about the Temperature</title>
 
       <para>These both CCD cameras are water cooled. More strictly
-          speaking, the dissipated heat from electronic cooling has to be
-          taken away by water. Therefore, we must to have cooling water
-          running normally to run the CCD cameras. The set working
+          speaking, the dissipated heat from electronic cooling has to
+          be taken away by water. Therefore, we must to have cooling
+          water running normally to run the CCD cameras. The set working
           temperature for Orius is 10&deg;C, and it is -25&deg;C for
-          Tietz TemCam 224HD. The advantage to have lower temperature for
-          CCD imaging is low thermal noise. In genera, it is advisable
-          to let CCD be cooled long enough before using the camera.
-      </para>
+          Tietz TemCam 224HD. The advantage to have lower temperature
+          for CCD imaging is low thermal noise. In general, it is
+          advisable to let CCD be cooled long enough before using the
+          camera. In most labs, the CCD camera is simply left ON all the
+          time until camera chamber is vented.  </para>
 
       <para>The temperature can be checked for each camera using their
           softwares. For Orius, from DigitalMicorgraph, one can check
@@ -316,12 +317,19 @@
    <sect1> <title xml:id="pixelsize">Pixlesize Calibration for Both Cameras</title>
       
        <para>The tabe below list pixelsize at specimen level for
-           different scope magnificatios. Please note that with large
+           different scope magnifications. Please note that with large
            screen position as Up and Down, the CM120 TEM interface
-           display different mag values. This is meant for mag at
-           different "collecting" level - ScreenDown mag means at screen
-           level and ScreenUp means at film level. We run Orius with
-           screen Down and Tietz with Screen Up.</para>
+           display different mag values. There is no difference in term
+           of lens current in this case - this is due to the recording
+           media being at different "collecting" level along the
+           projection. ScreenDown mag means at screen level and ScreenUp
+           means at film level. We run Orius with screen Down and Tietz
+           with Screen Up.</para>
+
+       <para>The magnifications display in TEM interface are nominal.
+           For actual magnification or pixelsize at specimen for a CCD
+           camera, careful calibration is needed. Below is the
+           calibration table for both cameras.</para> 
 
        <informaltable pgwide="1">
            <tgroup cols="3">

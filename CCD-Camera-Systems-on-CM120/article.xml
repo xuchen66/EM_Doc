@@ -20,21 +20,26 @@
 
     
    <abstract>
-		<para>We no longer use film for TEM exposure anymore! Instead, we use digital
-			camera. There are basically two types of digital cameras available on the
-			market for TEM applications - Charge-Coupled Device (<acronym>CCD</acronym>)
-			and Direct Electron Detector. On CM120, there are two cameras installed - Gatan
-			Orius model 832 and Tietz TemCam 224-HD. They both are <acronym>CCD</acronym>
-			type of cameras. In this document, I give information about basic properties of
-			the cameras, how to use them with CM120 and specific technical note for why we
-			need use them in such way.  </para>
 
-		<para>It also lists pixelsize information for both cameras so you can decide
-			which magnification you want to use for your final image. I also try to show
-			you how to use <application>SerialEM</application> to control them.</para>
+        <para>We no longer use film for TEM exposure anymore! Instead,
+            we use digital camera. There are basically two types of
+            digital cameras available on the market for TEM applications
+            - Charge-Coupled Device (<acronym>CCD</acronym>) and Direct
+            Electron Detector. On CM120, there are two cameras installed
+            - Gatan Orius model 832 and Tietz TemCam 224-HD. They both
+            are <acronym>CCD</acronym> type of cameras. In this
+            document, I give information about basic properties of the
+            cameras, how to use them with CM120 and specific technical
+            note for why we need use them in such way.  </para>
 
-		<para><link xlink:href="article.pdf">A pdf version of this document</link> is
-			also available.</para>
+        <para>It also lists pixelsize information for both cameras so
+            you can decide which magnification you want to use for your
+            final image. I also try to show you how to use
+            <application>SerialEM</application> to control them.</para>
+
+        <para><link xlink:href="article.pdf">A pdf version of this
+                document</link> is also available.</para>
+
     </abstract>
   </info>
 
@@ -106,45 +111,57 @@
   
   <sect1> <title xml:id="shutter-control-info">Shutter Control - Background Inforamtion</title> 
 
-		<para>Shutter control usually means TEM shutter control by hardware or software
-			of digital camera. The purpose, in most cases, is to have no beam on camera
-			except exposure period. Not all camera requires having TEM shutter control to
-			get an image. For cryoEM applications where accurate dose is to be concerned,
-			it makes a lot of sense to have shutter control. Fortunately, most of high-end
-			digital cameras for TEM have TEM shutter control support. </para>
+        <para>Shutter control usually means TEM shutter control by
+            hardware or software of digital camera. The purpose, in most
+            cases, is to have no beam on camera except exposure period.
+            Not all camera requires having TEM shutter control to get an
+            image. For cryoEM applications where accurate dose is to be
+            concerned, it makes a lot of sense to have shutter control.
+            Fortunately, most of high-end digital cameras for TEM have
+            TEM shutter control support. </para>
 
-		<para>The shutter discussed here is not any kind of mechanical shutter.
-			Instead, it is electronic. If an alignment coil in TEM column is put to a "bad"
-			value, then the beam disappears due to misalignment. We call it shutter closed.
-			And we call it open when the good alignment coil current is restored. Therefore,
-			this kind of electronic shutter can open and close very quickly.</para>
+        <para>The shutter discussed here is not any kind of mechanical
+            shutter.  Instead, it is electronic. If an alignment coil in
+            TEM column is put to a "bad" value, then the beam disappears
+            due to misalignment. We call it shutter closed.  And we call
+            it open when the good alignment coil current is restored.
+            Therefore, this kind of electronic shutter can open and
+            close very quickly.</para>
 
-		<para>An exposure on film requires no beam before film is pushed in to final
-			location and stabilized; and it opens shutter to let beam shine on film to
-			expose and then shutter is closed again when exposure finishes. On FEI
-			microscope with Low Dose functionality, one can even define pre-expose time. In
-			this case, two shutters are required to work together - first shutter above
-			specimen opens to have beam pre-expose on sample for certain period of time,
-			then second shutter below specimen opens to start exposure on film. Usually, the two
-			alignment coils to be controlled as upper and lower shutters are Gun Upper coil
-			and a Film Shutter Coil next to projector lens. All this is done within FEI
-			software control for when and which shutter is open or close. We usually call this
-			internal shutter control.</para>
+        <para>An exposure on film requires no beam before film is pushed
+            in to final location and stabilized; and it opens shutter to
+            let beam shine on film to expose and then shutter is closed
+            again when exposure finishes. On FEI microscope with Low
+            Dose functionality, one can even define pre-expose time. In
+            this case, two shutters are required to work together -
+            first shutter above specimen opens to have beam pre-expose
+            on sample for certain period of time, then second shutter
+            below specimen opens to start exposure on film. Usually, the
+            two alignment coils to be controlled as upper and lower
+            shutters are Gun Upper coil and a Film Shutter Coil next to
+            projector lens. All this is done within FEI software control
+            for when and which shutter is open or close. We usually call
+            this internal shutter control.</para>
 
-		<para>To image with a digital camera, especially for a beam sensitive
-			specimen, shutter control is therefore also needed. If configured correctly,
-			when camera is inserted and large screen of TEM is lifted, the beam should be
-			blanked. This shutter control is achieved by changing the same alignment coils
-			using shutter cable(s) from camera controller. The shutter cable directly
-			connects to TEM hardware so that when large screen is lifted, an extra voltage
-			is sent to TEM coil to "screw up" a good alignment. Thus, beam is blanked. If
-			we need to pre-expose our sample for whatever reason, then two cables will be
-			needed - one for pre-specimen and one for post-specimen. This control is done
-			by using external hardware. We normally call this "external" shutter control as
-			it is not via TEM software. </para>
+        <para>To image with a digital camera, especially for a beam
+            sensitive specimen, shutter control is therefore also
+            needed. If configured correctly, when camera is inserted and
+            large screen of TEM is lifted, the beam should be blanked.
+            This shutter control is achieved by changing the same
+            alignment coils using shutter cable(s) from camera
+            controller. The shutter cable directly connects to TEM
+            hardware so that when large screen is lifted, an extra
+            voltage is sent to TEM coil to "screw up" a good alignment.
+            Thus, beam is blanked. If we need to pre-expose our sample
+            for whatever reason, then two cables will be needed - one
+            for pre-specimen and one for post-specimen. This control is
+            done by using external hardware. We normally call this
+            "external" shutter control as it is not via TEM software.
+        </para>
 
-        <para>For convenience, we usually call the shutter of Gun Upper Coil
-            "the beam blanker"; and Film Shutter Coil "the film shutter".  </para>
+        <para>For convenience, we usually call the shutter of Gun Upper
+            Coil "the beam blanker"; and Film Shutter Coil "the film
+            shutter".  </para>
 
   </sect1>
 
@@ -152,12 +169,12 @@
 	<title xml:id="shutter-control-setup">Shutter Control Setup for Orius 831 and TemCam 
         224HD</title>
 
-    <para>The Orius controller for 35mm port sided-mount camera has no shutter
-        cable from the controller. Therefore, it doesn't control the beam at
-        all. It is possible to add the shutter control cable to the system, but
-        for acquisition of an image, the TEM shutter control is optional for
-        this camera. Of course, as you might imagine, this is not ideal for
-        cryoEM application.  </para>
+    <para>The Orius controller for 35mm port sided-mount camera has no
+        shutter cable from the controller. Therefore, it doesn't control
+        the beam at all. It is possible to add the shutter control cable
+        to the system, but for acquisition of an image, the TEM shutter
+        control is optional for this camera. Of course, as you might
+        imagine, this is not ideal for cryoEM application.  </para>
 
     <para>The picture below is the front and back to Orius camera
         controller, and Tietz camera shutterbox as well(small one on the
@@ -178,21 +195,21 @@
          little box on the top of Orius controller. As explained in
          previous section, the two shutter control cables (in red)are
          directly connected to TEM hardware. And there is a flat
-         ribbon-like cable, is also connected to TEM hardware. That is to
-         control signal with large screen of TEM being Up or Down. To be
-         more specific, when large screen is lifted Up, the signal from
-         this "Screen" cable to controller box triggers a 5V signal
+         ribbon-like cable, is also connected to TEM hardware. That is
+         to control signal with large screen of TEM being Up or Down. To
+         be more specific, when large screen is lifted Up, the signal
+         from this "Screen" cable to controller box triggers a 5V signal
          being sent to scope via the two shutter control cables, so beam
          is blanked with large screen position as a switch.</para> 
 
      <para>The two cables with red connectors are labeled "BB" and "SH",
-         for Beam Blanker and Shutter respectively. BB cable is connected
-         to Gun Upper Coil as explained in previous section. It can be
-         confirmed from scope "CURRENT READOUT " page. Below is two
-         screen snapshots for large screen being at Down and Up. You can
-         see the Gun Upper Coil current values in these two situations.
-         One can easily see the Gun U-X is changed from -77 to -195 when
-         screen is lifted.  </para>
+         for Beam Blanker and Shutter respectively. BB cable is
+         connected to Gun Upper Coil as explained in previous section.
+         It can be confirmed from scope "CURRENT READOUT " page. Below
+         is two screen snapshots for large screen being at Down and Up.
+         You can see the Gun Upper Coil current values in these two
+         situations.  One can easily see the Gun U-X is changed from -77
+         to -195 when screen is lifted.  </para>
 
             <figure xml:id="gun-coil-change">
 			    <title>Gun Coil Current Changes When Large Screen Up (left) and Down (right)</title>
