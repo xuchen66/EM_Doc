@@ -279,7 +279,27 @@
            <acronym>DM</acronym> first and then start
            <application>SerialEM</application> and you are ready to go!
        </para>
-    
+
+       <para>Since <application>SerialEM</application> doesn't talk to
+           CM120 computer, we have to use fake mag and screen position
+           to match the real situation on scope. This way, the image
+           file saved on SerialEM will have valid and correctly
+           pixelsize information in MRC header.</para>
+
+            <figure xml:id="fake-mag-screen">
+			    <title>Camera Setup Window where one can change mag and screen position to match scope </title>
+                    <mediaobject>
+                       <imageobject>
+                        <imagedata fileref="fake-mag-screen-setup"/> 
+                       </imageobject>
+                    </mediaobject>
+			</figure>
+
+            <para>To use it, you click on the three macro buttons
+                <guibutton>[&nbsp;Mag++&nbsp;]</guibutton>,
+                <guibutton>[&nbsp;Mag--&nbsp;]</guibutton> and
+                <guibutton>[&nbsp;SCR&nbsp;]</guibutton> to match
+                current microscope state. That's it.</para>
    </sect1>
 
    <sect1> <title xml:id="pixelsize">Pixlesize Calibration for Both Cameras</title>
