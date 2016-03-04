@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>5. Control both cameras using SerialEM</title><link rel="stylesheet" type="text/css" href="docbook.css" /><link rev="made" href="mailto:doc@FreeBSD.org" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.1" /><link rel="home" href="index.html" title="CCD Cameras on CM120" /><link rel="up" href="index.html" title="CCD Cameras on CM120" /><link rel="prev" href="ar01s04.html" title="4. A Note about the Temperature" /><link rel="next" href="ar01s06.html" title="6. Pixlesize Calibration for Both Cameras" /><script xmlns="" type="text/javascript" src="/layout/js/google.js"></script></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5. Control both cameras using SerialEM</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s04.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s06.html">Next</a></td></tr></table><hr /></div><div class="sect1"><div xmlns="" class="titlepage"><div><div><h2 xmlns="http://www.w3.org/1999/xhtml" class="title" style="clear: both"><a id="idp63803728"></a>5. Control both cameras using SerialEM</h2></div></div></div><p>Each camera has its own controlling software. It is
+           DigitaMicrograph (<acronym class="acronym">DM</acronym>) for Orius and
+           EM-MENU for Tietz. In order to have pixel size information,
+           both software tries to communicate with CM120 via a single
+           COM port. If you run start both softwares, one of them will
+           complain for not being able to connect to COM port. You can
+           still take images using either one, just you might not get
+           scale bar for one camera. </p><p>For image data that will be processed later, the scale bar
+           is not that important, but the pixelsize is. And we don't
+           have to always use its own native software to control CCD
+           camera to get an image. One of the good alternative is
+           <span class="application"><a class="link" href="http://bio3d.colorado.edu/SerialEM/" target="_top">SerialEM</a></span>.</p><p>SerialEM is a program for TEM data collection for both
+           single particle and tomography applications. It communicates
+           to TEM and digital camera. Currently, it doesn't support
+           CM120 without any hacking due to TEM software, but it
+           controls both cameras we have just fine. One of the
+           advantages with SerialEM is to be able to directy save data
+           as stack file and MRC as file format. </p><p>SerialEM controls Gatan camera by a plugin dll file put in
+           Gatan's plugin folder. In this case, <acronym class="acronym">DM</acronym>
+           has to started. When controlling Tietz camera, it directly
+           talks to the Tietz's registered dll modules. In this case, no
+           Tietz software needs to be started. Therefore, one starts
+           <acronym class="acronym">DM</acronym> first and then start
+           <span class="application">SerialEM</span> and you are ready to go!
+       </p></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s04.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s06.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4. A Note about the Temperature </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 6. Pixlesize Calibration for Both Cameras</td></tr></table></div><p xmlns="" align="center"><small>This is an <a href="http://www.umassmed.edu/about/official.aspx">official</a> Page of the University of Massachusetts Worcester Campus<br /> 
+    Electron Microscopy Facility &#8226; 55 Lake Avenue North Worcester, Massachusetts 01655-0160<br />
+    Questions or Comments? Email: <a href="mailto:gregory.hendricks@umassmed.edu">gregory.hendricks@umassmed.edu</a> Phone: 508-856-2602</small></p></body></html>

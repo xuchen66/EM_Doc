@@ -165,7 +165,7 @@
         for shutter control.</para> 
 
             <figure xml:id="orius-controller">
-			    <title>Front and Back of controllers of Orius and TemCam 224-HD</title>
+			    <title>Front and Back of controller of Orius and shutterbox of TemCam 224-HD</title>
                     <mediaobject>
                        <imageobject>
                         <imagedata fileref="front-back-orius-controller"/> 
