@@ -29,7 +29,7 @@
 			the cameras, how to use them with CM120 and specific technical note for why we
 			need use them in such way.  </para>
 
-		<para>It also lists pixelsize inforamtion for both cameras so you can decide
+		<para>It also lists pixelsize information for both cameras so you can decide
 			which magnification you want to use for your final image. I also try to show
 			you how to use <application>SerialEM</application> to control them.</para>
 
@@ -52,7 +52,7 @@
                     </mediaobject>
 			</figure>
 			
-	<para>This table lists some important propertt parameters:</para>
+	<para>This table lists some important property parameters:</para>
 
 			<informaltable pgwide="1">
 			  <tgroup cols="3">
@@ -108,22 +108,22 @@
 
 		<para>Shutter control usually means TEM shutter control by hardware or software
 			of digital camera. The purpose, in most cases, is to have no beam on camera
-			except exposure period. Not all camera reaquires having TEM shutter control to
+			except exposure period. Not all camera requires having TEM shutter control to
 			get an image. For cryoEM applications where accurate dose is to be concerned,
-			it makes a lot of sense to have shutter control. Fortunitely, most of high-end
+			it makes a lot of sense to have shutter control. Fortunately, most of high-end
 			digital cameras for TEM have TEM shutter control support. </para>
 
 		<para>The shutter discussed here is not any kind of mechanical shutter.
 			Instead, it is electronic. If an alignment coil in TEM column is put to a "bad"
-			value, then the beam disppears due to misalignment. We call it shutter closed.
+			value, then the beam disappears due to misalignment. We call it shutter closed.
 			And we call it open when the good alignment coil current is restored. Therefore,
 			this kind of electronic shutter can open and close very quickly.</para>
 
 		<para>An exposure on film requires no beam before film is pushed in to final
-			location and stablized; and it opens shutter to let beam shine on film to
+			location and stabilized; and it opens shutter to let beam shine on film to
 			expose and then shutter is closed again when exposure finishes. On FEI
-			microscope with Low Dose funtionality, one can even define pre-expose time. In
-			this case, two shuttes are required to work together - first shutter above
+			microscope with Low Dose functionality, one can even define pre-expose time. In
+			this case, two shutters are required to work together - first shutter above
 			specimen opens to have beam pre-expose on sample for certain period of time,
 			then second shutter below specimen opens to start exposure on film. Usually, the two
 			alignment coils to be controlled as upper and lower shutters are Gun Upper coil
@@ -159,8 +159,8 @@
         this camera. Of course, as you might imagine, this is not ideal for
         cryoEM application.  </para>
 
-    <para>The picuture below is the front and back to Orius camera
-        controller, and Tietz camera controller as well(small one on the
+    <para>The picture below is the front and back to Orius camera
+        controller, and Tietz camera shutterbox as well(small one on the
         top).  You can see there is no cable hooked on Orius controller
         for shutter control.</para> 
 
@@ -203,7 +203,18 @@
                     </mediaobject>
 			</figure>
 
-      <para>When you lift the screen, you can see beam disappearing suddenly. </para>
+      <para>When you lift the screen, you should also see beam
+          disappearing suddenly. </para>
+
+      <note>
+          <para>SH shutter is hooked to the film shutter coil, which is
+              not among the coil currents displayed here. It is indeed
+              working. One can confirm this by disconnecting BB cable -
+              the beam still disappears when large screen is UP.
+              According to the vendor, this shutterbox can not provide
+              pre-expsure function. One will have to upggrade to
+              shutterbox II for that. </para>
+      </note>
 
       <note>
           <para>The dip switch on Tietz camera control box has to flip
@@ -216,11 +227,11 @@
       <title xml:id="temperature">A Note about the Temperature</title>
 
       <para>These both CCD cameras are water cooled. More strictly
-          speaking, the disspated heat from electronic cooling has to be
-          taken away by water. Therfore, we must to have cooling water
+          speaking, the dissipated heat from electronic cooling has to be
+          taken away by water. Therefore, we must to have cooling water
           running normally to run the CCD cameras. The set working
           temperature for Orius is 10&deg;C, and it is -25&deg;C for
-          Tietz TemCam 224HD. The advantage to have lower temerature for
+          Tietz TemCam 224HD. The advantage to have lower temperature for
           CCD imaging is low thermal noise. In genera, it is advisable
           to let CCD be cooled long enough before using the camera.
       </para>
@@ -268,8 +279,8 @@
            to TEM and digital camera. Currently, it doesn't support
            CM120 without any hacking due to TEM software, but it
            controls both cameras we have just fine. One of the
-           advantages with SerialEM is to be able to directy save data
-           as stack file and MRC as file format. </para>
+           advantages with SerialEM is to be able to directly save data
+           as stack file and MRC as image format. </para>
 
        <para>SerialEM controls Gatan camera by a plugin dll file put in
            Gatan's plugin folder. In this case, <acronym>DM</acronym>
@@ -324,7 +335,7 @@
  
             <tbody>
                 <row>
-               <entry>35 / 31</entry>
+                    <entry>35 / 31</entry>
                     <entry>1134</entry>
                     <entry>464</entry>
                </row>
