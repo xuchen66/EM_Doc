@@ -16,7 +16,12 @@ SRCS=   article.xml
 
 IMAGES_EN=		orius-224hd.png
 IMAGES_EN+= 	front-back-orius-controller.png
+IMAGES_EN+=		224HD.png
+IMAGES_EN+=		Orius-831.png
+IMAGES_EN+=		ccdpshow.png
+IMAGES_EN+=		current-scr-up-down.png
 IMAGES_EN+=		fake-mag-screen-setup.png
+IMAGES_EN+=		front-back-orius-controller.png
 URL_RELPREFIX?= ../../../..
 DOC_PREFIX?=    ${.CURDIR}/../../..
 

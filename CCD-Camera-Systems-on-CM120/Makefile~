@@ -15,8 +15,8 @@ INSTALL_ONLY_COMPRESSED?=
 SRCS=   article.xml
 
 IMAGES_EN=		orius-224hd.png
-IMAGES_EN+= 	front-back-orius-controller
-
+IMAGES_EN+= 	front-back-orius-controller.png
+IMAGES_EN+=		fake-mag-screen-setup.png
 URL_RELPREFIX?= ../../../..
 DOC_PREFIX?=    ${.CURDIR}/../../..
 

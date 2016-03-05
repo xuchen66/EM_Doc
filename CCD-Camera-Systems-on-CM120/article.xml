@@ -331,9 +331,32 @@
                 current microscope state. That's it.</para>
    </sect1>
 
+   <sect1>
+       <title xml:id="dose">Electron Dose</title>
+
+       <para>A proper dose on sample for an exposure is important. If
+           the total dose is too low, the signal to noise ratio is low.
+           If the total dose is too high, the sample gets radiation
+           damage during exposure. With the latest CMOS direct electron
+           detector, we might be able to record a single exposure into
+           many separable frames, but the idea for dose and radiation
+           damage still holds.</para>
+
+       <para>On a real system, if we know the value how many counts
+           generated from one primary electron under a specif
+           accelarating voltage, and we can calculate the total dose
+           (e/A^2) from the mean value of the counts in an image.
+       </para>
+
+       <para>SerialEM is setup so that it reports the dose on specimen
+           on the top of the image display, for every and each
+           image.</para> 
+   
+   </sect1>
+
    <sect1> <title xml:id="pixelsize">Pixlesize Calibration for Both Cameras</title>
       
-       <para>The tabe below list pixelsize at specimen level for
+       <para>The table below list pixelsize at specimen level for
            different scope magnifications. Please note that with large
            screen position as Up and Down, the CM120 TEM interface
            display different mag values. There is no difference in term
