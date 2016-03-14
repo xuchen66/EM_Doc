@@ -15,7 +15,6 @@ INSTALL_ONLY_COMPRESSED?=
 SRCS=   article.xml
 
 IMAGES_EN=		orius-224hd.png
-IMAGES_EN+= 	front-back-orius-controller.png
 IMAGES_EN+=		224HD.png
 IMAGES_EN+=		Orius-831.png
 IMAGES_EN+=		ccdpshow.png
