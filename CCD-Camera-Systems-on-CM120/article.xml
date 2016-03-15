@@ -344,7 +344,7 @@
 
        <para>On a real system, if we know the value how many counts
            generated from one primary electron under a specif
-           accelarating voltage, and we can calculate the total dose
+           accelerating voltage, and we can calculate the total dose
            (e/A^2) from the mean value of the counts in an image.
        </para>
 
